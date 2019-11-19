@@ -6,6 +6,10 @@ services:
     image: mongo:4.2.1-bionic
     ports:
       - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - internal
   web:
     build: ./web-api/
     command: npm run dev
@@ -16,5 +20,12 @@ services:
     volumes:
       - ./web-api/:/app/
       - /app/node_modules
+    networks:
+      - internal
 
-  
+networks:
+  internal:
+
+volumes:
+  web-api:
+  data:
