@@ -1,6 +1,3 @@
-.dockerignore
-.gitignore
-.git/
-dockerfile
+./web-api/dockerfile
+./web-api/node_modules
 docker-compose.yml
-README.md
