@@ -41,7 +41,7 @@
 *.layout
 *.depend
 # generated directories
-bin/
+./bin/
 obj/
 
 ### Eclipse ###
