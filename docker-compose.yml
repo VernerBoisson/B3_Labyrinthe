@@ -3,7 +3,7 @@ version: "3.7"
 
 services:
   mongo:
-    image: mongo:4.2.1-bionic
+    image: mongo:4.0.4
     ports:
       - "27017:27017"
     volumes:
