@@ -30,4 +30,12 @@ var levels = mongoose.Schema({
    }
 });
 
-module.exports = mongoose.model('level', levels);
+/*module.exports = mongoose.model('level', levels);*/
+const level = mongoose.model('level', levels)
+
+/* insert uniquement name et creator */
+level1 = new level({'name': '11111', 'creator': '22222'})
+
+level1.save()
+.then(res => console.log(res))
+.catch(error => console.log(err))
