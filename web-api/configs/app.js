@@ -39,6 +39,10 @@ module.exports = function () {
         server.listen(port, function () {
             console.log('Express server listening on - http://' + hostname + ':' + port);
         });
+
+        server.get('/', function (req, res) {
+            res.send('Bienvenue sur le Maze Runner, Look /mazerunner/level or /mazerunner/obstacle');
+        })
     };
     return {
         create: create,
