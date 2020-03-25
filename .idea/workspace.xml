@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0b87199-94ed-41a8-81cb-adc4594db1e8" name="Default Changelist" comment="" />
+    <list default="true" id="f0b87199-94ed-41a8-81cb-adc4594db1e8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/MazeEditor.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swing.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swing/Swing.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swing/out/production/Swing/Game/LevelEditor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swing/src/Game/LevelEditor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-api/configs/config/local.js" beforeDir="false" afterPath="$PROJECT_DIR$/web-api/configs/config/local.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/web-api/package-lock.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,6 +87,7 @@
       <workItem from="1578989394410" duration="813000" />
       <workItem from="1578990352168" duration="607000" />
       <workItem from="1578994627768" duration="558000" />
+      <workItem from="1583835073393" duration="56000" />
     </task>
     <servers />
   </component>
@@ -102,9 +111,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="656" y="348" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1578995179984" />
-    <state x="342" y="145" key="new project wizard" timestamp="1578943692080">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="21" y="0" width="1335" height="741" key="new project wizard" timestamp="1583835126761">
+      <screen x="0" y="0" width="1366" height="746" />
     </state>
+    <state x="21" y="0" width="1335" height="741" key="new project wizard/0.0.1366.746@0.0.1366.746" timestamp="1583835126761" />
     <state x="342" y="145" key="new project wizard/0.0.1920.1050@0.0.1920.1050" timestamp="1578943692080" />
     <state x="623" y="227" key="search.everywhere.popup" timestamp="1578990209327">
       <screen x="0" y="0" width="1920" height="1050" />
