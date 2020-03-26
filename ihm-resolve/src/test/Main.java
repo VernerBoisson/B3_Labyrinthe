@@ -16,7 +16,6 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        MazeGUI mazeGUI = new MazeGUI();
         try{
             String response = MyGetRequest();
             //System.out.println(response);
@@ -36,7 +35,7 @@ public class Main {
 
                 mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
             }
-
+            MazeGUI mazeGUI = new MazeGUI();
         }catch (IOException e){
             e.printStackTrace();
         }

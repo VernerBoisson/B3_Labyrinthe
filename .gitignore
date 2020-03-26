@@ -31,11 +31,6 @@
 *.a
 
 
-# Executables
-*.exe
-*.out
-*.app
-
 ### CodeBlocks ###
 # specific to CodeBlocks IDE
 *.layout
@@ -114,7 +109,6 @@ local.properties
 
 ### Java ###
 # Compiled class file
-*.class
 
 # Log file
 *.log
@@ -311,5 +305,3 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/c++,node,java,linux,macos,windows,eclipse,codeblocks,visualstudiocode
 
 /data
-
-.idea/
