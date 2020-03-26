@@ -36,8 +36,8 @@ module.exports = {
 
     insert: (params) => {
         const addMaze = new maze({
-            title: params.title,
-            author: params.author,
+            title: params.title ? params.title : "No Title",
+            author: params.author ? params.author : "Anonymous",
             maze: params.maze,
             result: {
                 time: "-1",
