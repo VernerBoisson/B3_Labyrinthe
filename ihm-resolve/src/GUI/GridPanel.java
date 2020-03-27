@@ -5,6 +5,7 @@ import beans.Maze;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class GridPanel extends JPanel {
     private int size = 50;
