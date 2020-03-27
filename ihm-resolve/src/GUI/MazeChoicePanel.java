@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MazeChoicePanel extends JPanel implements Runnable{
     private char[][] board;
     int tmpX,tmpY;
-    private boolean over = true;
+    private boolean over = false;
 
     public MazeChoicePanel() {
         super();
@@ -52,7 +52,7 @@ public class MazeChoicePanel extends JPanel implements Runnable{
 
     public void setBoard(ArrayList<String> board) {
         int l = board.get(1).length();
-        this.board = new char[l][l];
+        this.board = new char[l][];
         int i=0;
         for(String str : board){
             this.board[i] = str.toCharArray();
@@ -108,16 +108,18 @@ public class MazeChoicePanel extends JPanel implements Runnable{
             this.over = true;
             System.out.println("GGGG");
             JOptionPane.showMessageDialog(this, "Good job dog!!");
-            System.exit(0);
         }
+        System.out.println("ça continue de tourner");
         if(!this.over){
             setVisited(x,y);
-            try {Thread.sleep(10); } catch (Exception e) { }
+            try {Thread.sleep(100);
+                moveFrom(x-1,y);
+                moveFrom(x+1,y);
+                moveFrom(x,y-1);
+                moveFrom(x,y+1);
 
-            moveFrom(x-1,y);
-            moveFrom(x+1,y);
-            moveFrom(x,y-1);
-            moveFrom(x,y+1);
+            } catch (Exception e) { }
+
         }
     }
 }
