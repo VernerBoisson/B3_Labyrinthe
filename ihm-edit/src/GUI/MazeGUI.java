@@ -19,7 +19,7 @@ public class MazeGUI {
         GridPanel gridPanel = new GridPanel();
         jframe.add(gridPanel, BorderLayout.NORTH);
 
-        ToolPanel toolPanel = new ToolPanel();
+        ToolPanel toolPanel = new ToolPanel(gridPanel);
         jframe.add(toolPanel, BorderLayout.SOUTH);
 
         jframe.setVisible(true);

@@ -8,6 +8,7 @@ public class Cell {
     private String type;
     private Shape shape;
 
+
     public Cell( int x, int y, int width,int height) {
         super();
         this.shape = new Rectangle2D.Double(x, y, width, height);
@@ -38,4 +39,6 @@ public class Cell {
     public void setColor(Color color) {
         this.color = color;
     }
+
+
 }
