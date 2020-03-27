@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import org.json.*;
 
 public class Main {
-    public static ArrayList<Maze> mazes = new ArrayList<Maze>();
 
     public static void main(String[] args) {
 	// write your code here
@@ -33,14 +32,14 @@ public class Main {
                     maze.add(arr.get(j).toString());
                 }
 
-                mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
+                Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
             }
             MazeGUI mazeGUI = new MazeGUI();
         }catch (IOException e){
             e.printStackTrace();
         }
 
-        for(Maze maze : mazes){
+        for(Maze maze : Maze.mazes){
             System.out.println(maze.toString());
         }
     }
