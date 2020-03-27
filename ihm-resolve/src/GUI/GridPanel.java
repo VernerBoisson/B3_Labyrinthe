@@ -10,8 +10,15 @@ public class GridPanel extends JPanel {
     private int size = 50;
     private Maze maze;
 
-    public GridPanel(Maze maze){
+    public Maze getMaze() {
+        return maze;
+    }
+
+    public void setMaze(Maze maze) {
         this.maze = maze;
+    }
+
+    public GridPanel(){
         setVisible(true);
         setSize(600,600);
     }
@@ -19,12 +26,31 @@ public class GridPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-
+        int length;
         Graphics2D g2 = (Graphics2D) g.create();
-        int length = maze.getSchemaMaze().size();
+        if(maze != null){
+            length = maze.getSchemaMaze().size();
+        }else{
+            length = 0;
+        }
         for(int i=0; i<length; i++){
             for(int j=0; j<length; j++){
-                g2.setColor(Color.BLUE);
+                char[] str = maze.getSchemaMaze().get(i).toCharArray();
+                System.out.println(str[j]);
+                switch (str[j]) {
+                    case 'W': g2.setColor(Color.BLACK);
+                        break;
+                    case 'F': g2.setColor(Color.WHITE);
+                        break;
+                    case 'S': g2.setColor(Color.GREEN);
+                        break;
+                    case 'G': g2.setColor(Color.RED);
+                        break;
+                    default: g2.setColor(Color.WHITE);
+                        break;
+                }
+
+
                 g2.fill(new Rectangle2D.Double(i+i*size,j+j*size, size, size));
 
             }

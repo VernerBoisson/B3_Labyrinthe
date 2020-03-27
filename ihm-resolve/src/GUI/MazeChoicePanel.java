@@ -12,6 +12,8 @@ public class MazeChoicePanel extends JPanel {
 
     public MazeChoicePanel() {
         super();
+        GridPanel gridPanel = new GridPanel();
+        add(gridPanel);
         JScrollBar jScrollBar = new JScrollBar();
         add(jScrollBar);
         for(Maze maze : Maze.mazes) {
@@ -20,9 +22,8 @@ public class MazeChoicePanel extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     System.out.println(maze.getTitle() + maze.toString());
-                    GridPanel gridPanel = new GridPanel(maze);
+                    gridPanel.setMaze(maze);
                     gridPanel.repaint();
-                    add(gridPanel);
                 }
             });
             add(mazeButton);

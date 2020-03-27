@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e34d9076-88d6-4e03-8165-d712dbdba940" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../the-real-ihm-edit/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../the-real-ihm-edit/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../the-real-ihm-edit/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../the-real-ihm-edit/.idea/the-real-ihm-edit.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../the-real-ihm-edit/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/beans/Maze.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/beans/Maze.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/test/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/test/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MazeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MazeGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/beans/Maze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/beans/Maze.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/GridPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/GridPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeChoicePanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeChoicePanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeChoicePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/MazeChoicePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/GridPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GridPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/MazeChoicePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MazeChoicePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +96,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1585226402163</updated>
-      <workItem from="1585226407217" duration="17334000" />
+      <workItem from="1585226407217" duration="18413000" />
+      <workItem from="1585308082987" duration="884000" />
     </task>
     <servers />
   </component>
@@ -110,30 +105,30 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="496" y="60" key="#com.intellij.ide.util.MemberChooser" timestamp="1585270847924">
+    <state x="496" y="60" key="#com.intellij.ide.util.MemberChooser" timestamp="1585307707447">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state x="496" y="60" key="#com.intellij.ide.util.MemberChooser/0.0.1366.746@0.0.1366.746" timestamp="1585270847924" />
+    <state x="496" y="60" key="#com.intellij.ide.util.MemberChooser/0.0.1366.746@0.0.1366.746" timestamp="1585307707447" />
     <state x="327" y="119" key="FileChooserDialogImpl" timestamp="1585229775418">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
     <state x="327" y="119" key="FileChooserDialogImpl/0.0.1366.746@0.0.1366.746" timestamp="1585229775418" />
-    <state width="641" height="180" key="GridCell.Tab.0.bottom" timestamp="1585271583238">
+    <state width="1324" height="180" key="GridCell.Tab.0.bottom" timestamp="1585309103558">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="641" height="180" key="GridCell.Tab.0.bottom/0.0.1366.746@0.0.1366.746" timestamp="1585271583238" />
-    <state width="641" height="180" key="GridCell.Tab.0.center" timestamp="1585271583237">
+    <state width="1324" height="180" key="GridCell.Tab.0.bottom/0.0.1366.746@0.0.1366.746" timestamp="1585309103558" />
+    <state width="1324" height="180" key="GridCell.Tab.0.center" timestamp="1585309103557">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="641" height="180" key="GridCell.Tab.0.center/0.0.1366.746@0.0.1366.746" timestamp="1585271583237" />
-    <state width="641" height="180" key="GridCell.Tab.0.left" timestamp="1585271583237">
+    <state width="1324" height="180" key="GridCell.Tab.0.center/0.0.1366.746@0.0.1366.746" timestamp="1585309103557" />
+    <state width="1324" height="180" key="GridCell.Tab.0.left" timestamp="1585309103557">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="641" height="180" key="GridCell.Tab.0.left/0.0.1366.746@0.0.1366.746" timestamp="1585271583237" />
-    <state width="641" height="180" key="GridCell.Tab.0.right" timestamp="1585271583238">
+    <state width="1324" height="180" key="GridCell.Tab.0.left/0.0.1366.746@0.0.1366.746" timestamp="1585309103557" />
+    <state width="1324" height="180" key="GridCell.Tab.0.right" timestamp="1585309103558">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="641" height="180" key="GridCell.Tab.0.right/0.0.1366.746@0.0.1366.746" timestamp="1585271583238" />
+    <state width="1324" height="180" key="GridCell.Tab.0.right/0.0.1366.746@0.0.1366.746" timestamp="1585309103558" />
     <state x="171" y="0" key="SettingsEditor" timestamp="1585230395216">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
