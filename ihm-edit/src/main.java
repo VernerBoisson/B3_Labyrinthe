@@ -14,8 +14,12 @@ public class main {
     public static void main(String[] args) throws Exception {
         MazeGUI gui = new MazeGUI();
 
+        UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo look : looks) {
+            System.out.println(look.getClassName());
 
+        UIManager.setLookAndFeel ("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 
-
+        }
     }
 }

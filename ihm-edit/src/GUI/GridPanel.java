@@ -21,18 +21,16 @@ class GridPanel extends JPanel {
     private ArrayList<Cell> shapes;
     private ArrayList<String> tableau;  
     public GridPanel() {
-        int size = 50;
+        int size = 25;
         this.shapes = new ArrayList<Cell>();
         this.tableau = new ArrayList<String>();
-        for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
-                shapes.add(new Cell(j+j*size,i+i*size,size,size));
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+        for(int i=0; i<20; i++){
+            for(int j=0; j<20; j++){
+                shapes.add(new Cell(200 +i+i*size,20 + j+j*size,size,size));
             }
         }
-        for (Cell item : shapes) {
-            tableau.add(item.getType());
-        }
-        System.out.println(tableau);
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -86,6 +84,41 @@ class GridPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(600, 600);
+    }
+
+
+
+    public void clear(){
+        for (Cell item : shapes){
+            item.setColor(Color.WHITE);
+            item.setType("F");
+        }
+        repaint();
+    }
+
+    public void wallFill(){
+        for (Cell item : shapes){
+            item.setColor(Color.BLACK);
+            item.setType("W");
+        }
+        repaint();
+    }
+
+    public boolean isSolvable(){
+        boolean start = false;
+        boolean goal = false;
+        for (Cell item : shapes){
+            if (item.getType() == "S") {
+                start = true;
+            }
+            if (item.getType() == "G"){
+                goal = true;
+            }
+        }
+        if (start && goal)
+            return true;
+        else
+            return false;
     }
 
     public void save(String title, String author) throws Exception{
@@ -153,7 +186,6 @@ class GridPanel extends JPanel {
 
         //print result
         System.out.println(response.toString());
-
 
 
     }

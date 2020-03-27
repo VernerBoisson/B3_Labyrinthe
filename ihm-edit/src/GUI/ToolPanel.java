@@ -8,65 +8,22 @@ import java.awt.event.ActionListener;
 
 import GUI.GridPanel.*;
 
-public class ToolPanel extends JPanel {
+public class ToolPanel extends JPanel{
     public static Color GlobalColor = Color.WHITE;
     public static String GlobalType = "F";
     public GridPanel Maze;
 
     public ToolPanel(GridPanel maze){
-
         Maze = maze;
-        final JFrame parent = new JFrame();
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 1));
-        JLabel titre = new JLabel("Titre du Labyrinthe");
-        JTextField title = new JTextField();
-        title.setColumns(10);
-        JLabel auteur = new JLabel("Auteur du Labyrinthe");
-        JTextField author = new JTextField();
-        author.setColumns(10);
-        JButton postmaze =  new JButton("Enregistrer");
-        postmaze.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                parent.setVisible(false);
 
-                try {
-                    Maze.save(title.getText(), author.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println("enregistrement fini");
-            }
-        });
-        panel.add(titre);
-        panel.add(title);
-        panel.add(auteur);
-        panel.add(author);
-        panel.add(postmaze);
-
-        parent.add(panel);
-        parent.pack();
-
-        JButton save = new JButton("Sauvegarder");
-
-
-        save.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parent.setVisible(true);
-
-
-
-            }
-        });
 
 
         JButton start = new JButton("Start");
         JButton goal = new JButton("Goal");
         JButton wall = new JButton("Wall");
         JButton eraser = new JButton("Eraser");
-
+        JButton clear = new JButton("Clear all");
+        JButton wallFill = new JButton("Wall everything");
 
         start.addActionListener(new ActionListener() {
             @Override
@@ -96,12 +53,53 @@ public class ToolPanel extends JPanel {
                 setGlobalType("F");
             }
         });
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Maze.clear();
+            }
+        });
+
+        wallFill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Maze.wallFill();
+            }
+        });
+
+        start.setPreferredSize(new Dimension( 100,100));
+        start.setBackground((Color.GREEN.darker()));
+        start.setForeground(Color.WHITE);
+
+        goal.setPreferredSize(new Dimension( 100,100));
+        goal.setBackground(Color.RED);
+        goal.setForeground(Color.WHITE);
+
+        wall.setPreferredSize(new Dimension( 100,100));
+        wall.setBackground(Color.BLACK);
+        wall.setForeground(Color.WHITE);
+
+
+        eraser.setPreferredSize(new Dimension( 100,100));
+        eraser.setBackground(Color.WHITE);
+        eraser.setForeground(Color.BLACK);
+
+        clear.setPreferredSize(new Dimension( 100,100));
+        clear.setBackground(Color.WHITE);
+        clear.setForeground(Color.BLACK);
+
+
+        wallFill.setPreferredSize(new Dimension( 100,100));
+        wallFill.setBackground(Color.WHITE);
+        wallFill.setForeground(Color.DARK_GRAY);
+
+        setLayout(new GridLayout(1, 6));
         add(start);
         add(goal);
-        add(eraser);
         add(wall);
-        add(save);
-        add(Box.createRigidArea(new Dimension(10, 10)));
+        add(eraser);
+        add(clear);
+        add(wallFill);
     }
 
     public static void setGlobalColor(Color color){

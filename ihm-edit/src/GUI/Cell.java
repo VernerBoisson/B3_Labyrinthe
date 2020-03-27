@@ -10,6 +10,7 @@ public class Cell {
 
 
     public Cell( int x, int y, int width,int height) {
+        //Pourquoi super ?
         super();
         this.shape = new Rectangle2D.Double(x, y, width, height);
         this.color = Color.WHITE;
