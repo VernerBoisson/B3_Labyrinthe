@@ -18,7 +18,7 @@ public class ToolPanel extends JPanel {
         Maze = maze;
         final JFrame parent = new JFrame();
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
+        panel.setLayout(new GridLayout(5, 1));
         JLabel titre = new JLabel("Titre du Labyrinthe");
         JTextField title = new JTextField();
         title.setColumns(10);
@@ -29,12 +29,14 @@ public class ToolPanel extends JPanel {
         postmaze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                parent.setVisible(false);
 
                 try {
                     Maze.save(title.getText(), author.getText());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                System.out.println("enregistrement fini");
             }
         });
         panel.add(titre);

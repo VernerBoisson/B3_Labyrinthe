@@ -1,6 +1,7 @@
 package GUI;
 
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -18,14 +19,14 @@ import static GUI.ToolPanel.GlobalType;
 
 class GridPanel extends JPanel {
     private ArrayList<Cell> shapes;
-    private ArrayList<String> tableau;
+    private ArrayList<String> tableau;  
     public GridPanel() {
         int size = 50;
         this.shapes = new ArrayList<Cell>();
         this.tableau = new ArrayList<String>();
         for(int i=0; i<10; i++){
             for(int j=0; j<10; j++){
-                shapes.add(new Cell(i+i*size,j+j*size,size,size));
+                shapes.add(new Cell(j+j*size,i+i*size,size,size));
             }
         }
         for (Cell item : shapes) {
@@ -88,11 +89,7 @@ class GridPanel extends JPanel {
     }
 
     public void save(String title, String author) throws Exception{
-        try {
 
-        } catch (Exception e){
-
-        }
         tableau.clear();
 
 
@@ -119,24 +116,30 @@ class GridPanel extends JPanel {
             test = test.concat("maze=" + tableau.get(i) + "&");
 
         }
+
         test = test.concat("title=" + title + "&author=" + author );
         System.out.println(test);
+
 
         String url = "http://localhost:8080/";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
+        //add reuqest header
         con.setRequestMethod("POST");
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        String urlParameters = "maze=WWWWWWWWWW&maze=WFFFFWFFFW&maze=WFWWFWFWFW&maze=WFWFFWFWFW&maze=WFWFWWFWFW&maze=WFWFFWFWFW&maze=WFWFWFFWFW&maze=WFWFWFWWFW&maze=WSWFFFFWGW&maze=WWWWWWWWWW&title='papa'";
 
+        //Send post request
         con.setDoOutput(true);
-
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(test);
         wr.flush();
         wr.close();
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -150,7 +153,7 @@ class GridPanel extends JPanel {
 
         //print result
         System.out.println(response.toString());
-        System.out.println(tableau);
+
 
 
     }
