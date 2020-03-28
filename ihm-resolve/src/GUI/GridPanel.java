@@ -88,6 +88,7 @@ public class GridPanel extends JPanel implements Runnable{
     @Override
     public void run() {
         getStart();
+        over = false;
         moveFrom(tmpX, tmpY);
     }
 
@@ -139,7 +140,7 @@ public class GridPanel extends JPanel implements Runnable{
         if(!this.over){
             setVisited(x,y);
             repaint();
-            try {Thread.sleep(30);
+            try {Thread.sleep(100);
                 moveFrom(x-1,y);
                 moveFrom(x+1,y);
                 moveFrom(x,y-1);
