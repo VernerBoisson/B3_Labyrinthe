@@ -8,33 +8,24 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
-    private char[][] board;
+    private char[][] board, saveboard;
     int tmpX,tmpY;
     private boolean over = false;
     private int size = 50;
     private Maze maze;
     private int length=0;
-
-    public char[][] getBoard() {
-        return board;
-    }
-
-    public void setBoard(char[][] board) {
-        this.board = board;
-        System.out.println(this.board[0][4]);
-        repaint();
-    }
+    private int timer, movement;
 
     public void setBoard(ArrayList<String> board) {
-        int l = board.get(1).length();
-        this.board = new char[l][];
+        int l = board.get(0).length();
+        this.board = new char[l][l];
         int i=0;
         for(String str : board){
+            System.out.println(str+ i);
             this.board[i] = str.toCharArray();
             i++;
         }
     }
-
 
     public Maze getMaze() {
         return maze;
@@ -68,6 +59,10 @@ public class GridPanel extends JPanel implements Runnable{
                         break;
                     case 'G': g2.setColor(Color.RED);
                         break;
+                    case 'M': g2.setColor(Color.DARK_GRAY);
+                        break;
+                    case 'T': g2.setColor(Color.ORANGE);
+                        break;
                     default: g2.setColor(Color.WHITE);
                         break;
                 }
@@ -87,8 +82,11 @@ public class GridPanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
+        saveboard = board;
         getStart();
         over = false;
+        timer = 0;
+        movement = 0;
         moveFrom(tmpX, tmpY);
     }
 
@@ -97,6 +95,12 @@ public class GridPanel extends JPanel implements Runnable{
     }
     public  boolean isWall(int x, int y){
         return board[x][y] == 'W';
+    }
+    public  boolean isMubTrap(int x, int y){
+        return board[x][y] == 'M';
+    }
+    public  boolean isTrap(int x, int y){
+        return board[x][y] == 'T';
     }
     public  boolean isFree(int x, int y){
         return board[x][y] == 'F';
@@ -126,21 +130,37 @@ public class GridPanel extends JPanel implements Runnable{
         tmpY = y;
     }
 
-    private void moveFrom(int x, int y) {
+    private void moveFrom(int x, int y) { ;
         if(isWall(x,y))
             return;
         if(isVisited(x,y))
             return;
+
+        movement++;
+        if(isMubTrap(x, y)){
+            try {
+                Thread.sleep(50);
+                timer += 50;
+                return;
+            } catch (InterruptedException e) {
+            }
+        }
+        if(isTrap(x,y)){
+            saveboard[x][y] = 'W';
+            board = saveboard;
+            run();
+            return;
+        }
         if(isGoal(x,y)){
             this.over = true;
-            System.out.println("GGGG");
             JOptionPane.showMessageDialog(this, "Good job dog!!");
         }
-        System.out.println("ça continue de tourner");
+
         if(!this.over){
             setVisited(x,y);
             repaint();
             try {Thread.sleep(100);
+                timer+=100;
                 moveFrom(x-1,y);
                 moveFrom(x+1,y);
                 moveFrom(x,y-1);
