@@ -1,10 +1,7 @@
 package GUI;
 
-import beans.Maze;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class MazeGUI {
     public MazeGUI(){

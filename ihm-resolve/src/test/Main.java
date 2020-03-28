@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import org.json.*;
 
 import javax.swing.*;
@@ -25,30 +24,9 @@ public class Main {
         }
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 
-        try{
-
-            String response = MyGetRequest();
-            //System.out.println(response);
-            JSONArray jsonArray = new JSONArray(response);
-
-            for (int i = 0; i < jsonArray.length(); i++)
-            {
-                System.out.println(jsonArray.get(i).toString());
-                JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
-                ArrayList<String> maze = new ArrayList<String>();
-
-                JSONArray arr = jsonObject.getJSONArray("maze");
-                for (int j = 0; j < arr.length(); j++)
-                {
-                    maze.add(arr.get(j).toString());
-                }
-
-                Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
-            }
-            MazeGUI mazeGUI = new MazeGUI();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        String response = MyGetRequest();
+        ParseResponse(response);
+        MazeGUI mazeGUI = new MazeGUI();
 
         for(Maze maze : Maze.mazes){
             System.out.println(maze.toString());
@@ -67,7 +45,7 @@ public class Main {
             StringBuffer response = new StringBuffer();
 
             while((readLine = in.readLine()) != null) {
-                StringBuffer append = response.append(readLine);
+                response.append(readLine);
             }
 
             in.close();
@@ -76,5 +54,30 @@ public class Main {
             System.out.println("GET NOT WORKED");
         }
         return null;
+    }
+
+    public static void ParseResponse(String response){
+        JSONArray jsonArray = new JSONArray(response);
+
+        for (int i = 0; i < jsonArray.length(); i++)
+        {
+            System.out.println(jsonArray.get(i).toString());
+            JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
+            JSONArray arr = jsonObject.getJSONArray("maze");
+            int l = arr.length();
+            char[][] maze = new char[l][l];
+            for (int j = 0; j < l; j++)
+            {
+                JSONArray arr2 = (JSONArray) arr.get(j);
+                for(int k =0; k<l; k++){
+                    String str = (String) arr2.get(k);
+                    maze[j][k] = (char) str.charAt(0);
+
+                }
+                System.out.println(arr.get(j).getClass().getName());
+            }
+
+            Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
+        }
     }
 }

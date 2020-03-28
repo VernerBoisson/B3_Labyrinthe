@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
     id: {type: Number, required: true, unique: true},
     title: {type:String},
     author: {type:String},
-    maze: [{type:String}],
+    maze: [[{type:String}]],
     createdAt: {type: Date, default: new Date()},
     result: {type:Object}
 })

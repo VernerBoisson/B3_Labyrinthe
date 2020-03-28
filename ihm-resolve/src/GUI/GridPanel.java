@@ -5,8 +5,6 @@ import beans.Maze;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
     private char[][] board, saveboard;
@@ -17,15 +15,8 @@ public class GridPanel extends JPanel implements Runnable{
     private int length=0;
     private int timer, movement, saveTimer=0, saveMovement=0;
 
-    public void setBoard(ArrayList<String> board) {
-        int l = board.get(0).length();
-        this.board = new char[l][l];
-        int i=0;
-        for(String str : board){
-            System.out.println(str+ i);
-            this.board[i] = str.toCharArray();
-            i++;
-        }
+    public void setBoard(char[][] board){
+        this.board = board;
     }
 
     public Maze getMaze() {

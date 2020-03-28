@@ -7,14 +7,23 @@ public class Maze {
     private int id;
     private String title;
     private String author;
-    private ArrayList<String> schemaMaze;
+    private char[][] schemaMaze;
     private String time;
+    private String movement;
 
-    public Maze(int id, String title, String author, ArrayList<String> schemaMaze){
+    public Maze(int id, String title, String author, char[][] schemaMaze){
         this.id = id;
         this.title = title;
         this.author = author;
         this.schemaMaze = schemaMaze;
+    }
+
+    public String getMovement() {
+        return movement;
+    }
+
+    public void setMovement(String movement) {
+        this.movement = movement;
     }
 
     public String getTime() {
@@ -25,41 +34,10 @@ public class Maze {
         this.time = time;
     }
 
-    public static ArrayList<Maze> getMazes() {
-        return mazes;
-    }
-
-    public static void setMazes(ArrayList<Maze> mazes) {
-        Maze.mazes = mazes;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public ArrayList<String> getSchemaMaze() {
+    public char[][]getSchemaMaze() {
         return schemaMaze;
     }
 
-    public void setSchemaMaze(ArrayList<String> schemaMaze) {
-        this.schemaMaze = schemaMaze;
-    }
 
     @Override
     public String toString() {
