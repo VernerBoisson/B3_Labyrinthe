@@ -23,6 +23,9 @@ public class MazeChoicePanel extends JScrollPane {
 
         this.gridPanel = gridPanel;
         JButton jButtonExectue = new JButton("Execute");
+        jButtonExectue.setPreferredSize(new Dimension(100 ,100));
+        jButtonExectue.setBackground(Color.GREEN);
+        buttonPanel.add(jButtonExectue);
 
         jButtonExectue.addActionListener(new ActionListener() {
             @Override
@@ -48,7 +51,7 @@ public class MazeChoicePanel extends JScrollPane {
             buttonPanel.add(mazeButton);
         }
         System.out.println(Maze.mazes.size());
-        buttonPanel.setLayout(new GridLayout(Maze.mazes.size(), 1));
+        buttonPanel.setLayout(new GridLayout(Maze.mazes.size() + 1, 1));
 
         buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
 
