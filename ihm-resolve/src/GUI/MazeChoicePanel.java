@@ -2,25 +2,27 @@ package GUI;
 
 import beans.Maze;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-public class MazeChoicePanel extends JPanel {
+public class MazeChoicePanel extends JScrollPane {
 
     private GridPanel gridPanel;
 
-    public MazeChoicePanel() {
-        super();
-        setLayout(new FlowLayout());
-        this.gridPanel = new GridPanel();
-        add(this.gridPanel, FlowLayout.LEFT);
-        JScrollBar jScrollBar = new JScrollBar();
-        add(jScrollBar);
+    public MazeChoicePanel(GridPanel gridPanel) {
+        setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+        JPanel buttonPanel = new JPanel();
+
+        setViewportView(buttonPanel);
+
+        JLabel jlab = new JLabel("mamacito");
+
+        this.gridPanel = gridPanel;
         JButton jButtonExectue = new JButton("Execute");
-        add(jButtonExectue, FlowLayout.RIGHT);
 
         jButtonExectue.addActionListener(new ActionListener() {
             @Override
@@ -41,8 +43,17 @@ public class MazeChoicePanel extends JPanel {
                     gridPanel.repaint();
                 }
             });
-            add(mazeButton, FlowLayout.CENTER);
+
+            mazeButton.setPreferredSize(new Dimension(100 ,70));
+            buttonPanel.add(mazeButton);
         }
+        System.out.println(Maze.mazes.size());
+        buttonPanel.setLayout(new GridLayout(Maze.mazes.size(), 1));
+
+        buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
+
+
+
     }
 
 

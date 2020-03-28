@@ -11,7 +11,7 @@ public class GridPanel extends JPanel implements Runnable{
     private char[][] board, saveboard;
     int tmpX,tmpY;
     private boolean over = false;
-    private int size = 50;
+    private int size;
     private Maze maze;
     private int length=0;
     private int timer, movement;
@@ -35,6 +35,7 @@ public class GridPanel extends JPanel implements Runnable{
         this.maze = maze;
         setBoard(maze.getSchemaMaze());
         this.length = board[0].length;
+        this.size = (int) Math.floor(940/board[0].length);
     }
 
     public GridPanel(){

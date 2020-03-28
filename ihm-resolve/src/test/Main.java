@@ -11,11 +11,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import org.json.*;
 
+import javax.swing.*;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 	// write your code here
+
+        UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo look : looks) {
+            System.out.println(look.getClassName());
+
+        }
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+
         try{
+
             String response = MyGetRequest();
             //System.out.println(response);
             JSONArray jsonArray = new JSONArray(response);

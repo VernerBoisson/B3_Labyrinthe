@@ -12,8 +12,11 @@ public class MazeGUI {
         jframe.setSize(1024, 800);
         jframe.setTitle("Maze Resolve");
         jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        MazeChoicePanel mazeChoicePanel = new MazeChoicePanel();
-        jframe.add(mazeChoicePanel);
+        GridPanel gridPanel = new GridPanel();
+        MazeChoicePanel mazeChoicePanel = new MazeChoicePanel(gridPanel);
+        jframe.add(gridPanel, BorderLayout.CENTER);
+        jframe.add(mazeChoicePanel, BorderLayout.EAST);
+        jframe.setSize(1280, 1080);
         jframe.setVisible(true);
     }
 }
