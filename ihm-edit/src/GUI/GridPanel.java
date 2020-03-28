@@ -141,33 +141,33 @@ class GridPanel extends JPanel {
 
             }
         }
-        shapes.set(5, shapes.get(5));
+        //shapes.set(5, shapes.get(5));
 
-//        int a = 0;
-//        for (Cell item : shapes) {
+        int a = 0;
+        for (Cell item : shapes) {
 
 
-//            if (a >= size) {
-//                if (a % 2 == 0) {
-//                    item.setColor(Color.WHITE);
-//                    item.setType("F");
-//
-//                } else {
-//                    item.setColor(Color.BLACK);
-//                    item.setType("W");
-//                }
-//                if (a >= size*2)
-//                    a = 0;
-//            }
-//            if (random.nextBoolean() == true) {
-//                if (a % 2 == 0 && item.getColor() == Color.WHITE) {
-//
-//                    item.setColor(Color.BLACK);
-//                    item.setType("W");
-//                }
-//            }
-//            a += 1;
-//        }
+            if (a >= size) {
+                if (a % 2 == 0) {
+                    item.setColor(Color.WHITE);
+                    item.setType("F");
+
+                } else {
+                    item.setColor(Color.BLACK);
+                    item.setType("W");
+                }
+                if (a >= size*2)
+                    a = 0;
+            }
+            if (random.nextBoolean() == true) {
+                if (a % 2 == 0 && item.getColor() == Color.WHITE) {
+
+                    item.setColor(Color.BLACK);
+                    item.setType("W");
+                }
+            }
+            a += 1;
+        }
 
 
         repaint();

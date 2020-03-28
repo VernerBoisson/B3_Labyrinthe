@@ -5,16 +5,17 @@ import beans.Maze;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
     private char[][] board, saveboard;
     int tmpX,tmpY;
-    private boolean over = false;
+    private boolean over = false, recursion = true;
     private int size;
     private Maze maze;
     private int length=0;
-    private int timer, movement;
+    private int timer, movement, saveTimer=0, saveMovement=0;
 
     public void setBoard(ArrayList<String> board) {
         int l = board.get(0).length();
@@ -65,6 +66,8 @@ public class GridPanel extends JPanel implements Runnable{
                         break;
                     case 'T': g2.setColor(new Color(255, 120,5));
                         break;
+                    case 'X': g2.setColor(new Color(255, 120,5));
+                        break;
                     default: g2.setColor(Color.WHITE);
                         break;
                 }
@@ -87,8 +90,9 @@ public class GridPanel extends JPanel implements Runnable{
         saveboard = board;
         getStart();
         over = false;
-        timer = 0;
-        movement = 0;
+        timer = saveTimer;
+        movement = saveMovement;
+        recursion = true;
         moveFrom(tmpX, tmpY);
     }
 
@@ -96,7 +100,7 @@ public class GridPanel extends JPanel implements Runnable{
         return board[x][y] == 'G';
     }
     public  boolean isWall(int x, int y){
-        return board[x][y] == 'W';
+        return board[x][y] == 'W' || board[x][y] == 'X';
     }
     public  boolean isMubTrap(int x, int y){
         return board[x][y] == 'M';
@@ -132,42 +136,50 @@ public class GridPanel extends JPanel implements Runnable{
         tmpY = y;
     }
 
-    private void moveFrom(int x, int y) { ;
-        if(isWall(x,y))
-            return;
-        if(isVisited(x,y))
-            return;
-
-        movement++;
-        if(isMubTrap(x, y)){
-            try {
-                Thread.sleep(50);
-                timer += 50;
+    private void moveFrom(int x, int y) {
+        if(recursion){
+            if(isWall(x,y))
                 return;
-            } catch (InterruptedException e) {
-            }
-        }
-        if(isTrap(x,y)){
-            saveboard[x][y] = 'W';
-            board = saveboard;
-            run();
-            return;
-        }
-        if(isGoal(x,y)){
-            this.over = true;
-            JOptionPane.showMessageDialog(this, "Good job dog!!");
-        }
+            if(isVisited(x,y))
+                return;
 
-        if(!this.over){
-            setVisited(x,y);
-            repaint();
-            try {Thread.sleep(100);
-                timer+=100;
-                moveFrom(x-1,y);
-                moveFrom(x+1,y);
-                moveFrom(x,y-1);
-                moveFrom(x,y+1);
-            } catch (Exception e) { }
+            movement++;
+            if(isMubTrap(x, y)){
+                try {
+                    setVisited(x,y);
+                    Thread.sleep(500);
+                    timer += 500;
+                } catch (InterruptedException e) {
+                }
+            }
+            if(isTrap(x,y)){
+                saveboard[x][y] = 'X';
+                board = saveboard;
+                saveMovement = movement;
+                saveTimer = timer;
+                recursion = false;
+                Thread t = new Thread(this);
+                t.run();
+                return;
+            }
+            if(isGoal(x,y)){
+                this.over = true;
+                saveTimer=0;
+                saveMovement=0;
+                JOptionPane.showMessageDialog(this, "Good job dog!!");
+            }
+
+            if(!this.over){
+                setVisited(x,y);
+                repaint();
+                try {Thread.sleep(100);
+                    timer+=100;
+                    moveFrom(x-1,y);
+                    moveFrom(x+1,y);
+                    moveFrom(x,y-1);
+                    moveFrom(x,y+1);
+                } catch (Exception e) { }
+            }
         }
     }
 
