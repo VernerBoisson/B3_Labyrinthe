@@ -12,12 +12,13 @@ public class MazeChoicePanel extends JPanel implements Runnable{
     private char[][] board;
     int tmpX,tmpY;
     private boolean over = false;
+    private GridPanel gridPanel;
 
     public MazeChoicePanel() {
         super();
         setLayout(new FlowLayout());
-        GridPanel gridPanel = new GridPanel();
-        add(gridPanel, FlowLayout.LEFT);
+        this.gridPanel = new GridPanel();
+        add(this.gridPanel, FlowLayout.LEFT);
         JScrollBar jScrollBar = new JScrollBar();
         add(jScrollBar);
         JButton jButtonExectue = new JButton("Execute");
@@ -28,6 +29,8 @@ public class MazeChoicePanel extends JPanel implements Runnable{
             public void actionPerformed(ActionEvent actionEvent) {
                 setBoard(gridPanel.getMaze().getSchemaMaze());
                 getStart();
+                gridPanel.setBoard(board);
+                over = false;
                 run();
             }
         });
@@ -112,14 +115,13 @@ public class MazeChoicePanel extends JPanel implements Runnable{
         System.out.println("ça continue de tourner");
         if(!this.over){
             setVisited(x,y);
-            try {Thread.sleep(100);
+            gridPanel.setBoard(board);
+            try {Thread.sleep(30);
                 moveFrom(x-1,y);
                 moveFrom(x+1,y);
                 moveFrom(x,y-1);
                 moveFrom(x,y+1);
-
             } catch (Exception e) { }
-
         }
     }
 }
