@@ -21,7 +21,7 @@ public class MazeGUI {
         jframe.setTitle("Maze Edit");
         jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        gridPanel = new GridPanel(20);
+        gridPanel = new GridPanel(19);
         jframe.add(gridPanel, BorderLayout.CENTER);
 
 

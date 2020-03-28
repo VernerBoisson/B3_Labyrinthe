@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static GUI.ToolPanel.GlobalColor;
 import static GUI.ToolPanel.GlobalType;
@@ -21,9 +22,11 @@ class GridPanel extends JPanel {
     private int size;
     private ArrayList<Cell> shapes;
     private ArrayList<String> tableau;  
-    public GridPanel(int Size) {
+    public GridPanel(int Size ) {
+
+
         size = Size;
-        int cellSize = (int) Math.floor(940/size);
+        int cellSize = (int) Math.floor(800/size);
         this.shapes = new ArrayList<Cell>();
         this.tableau = new ArrayList<String>();
         for(int i=0; i<size; i++){
@@ -61,10 +64,6 @@ class GridPanel extends JPanel {
                 }
                 repaint();
 
-//                tableau.clear();
-//                for (Cell item : shapes) {
-//                    tableau.add(item.getType());
-//                }
             }
         });
 
@@ -134,10 +133,43 @@ class GridPanel extends JPanel {
     }
 
     public void wallFill(){
-        for (Cell item : shapes){
-            item.setColor(Color.BLACK);
-            item.setType("W");
+        Random random = new Random();
+        int count = 0;
+        for (Cell item : shapes) {
+            if (count == size + 1) {
+                random.nextInt(5);
+
+            }
         }
+        shapes.set(5, shapes.get(5));
+
+//        int a = 0;
+//        for (Cell item : shapes) {
+
+
+//            if (a >= size) {
+//                if (a % 2 == 0) {
+//                    item.setColor(Color.WHITE);
+//                    item.setType("F");
+//
+//                } else {
+//                    item.setColor(Color.BLACK);
+//                    item.setType("W");
+//                }
+//                if (a >= size*2)
+//                    a = 0;
+//            }
+//            if (random.nextBoolean() == true) {
+//                if (a % 2 == 0 && item.getColor() == Color.WHITE) {
+//
+//                    item.setColor(Color.BLACK);
+//                    item.setType("W");
+//                }
+//            }
+//            a += 1;
+//        }
+
+
         repaint();
     }
 
@@ -171,7 +203,7 @@ class GridPanel extends JPanel {
 
                 tableau.set(index, tableau.get(index).concat(item.getType()));
             } else{
-                count = 10;
+                count = size;
                 index += 1;
                 tableau.add(item.getType());
                 System.out.println(tableau);

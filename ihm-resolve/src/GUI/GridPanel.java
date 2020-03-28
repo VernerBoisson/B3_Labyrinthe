@@ -35,7 +35,8 @@ public class GridPanel extends JPanel implements Runnable{
         this.maze = maze;
         setBoard(maze.getSchemaMaze());
         this.length = board[0].length;
-        this.size = (int) Math.floor(940/board[0].length);
+        this.size = (int) Math.floor(900/board[0].length);
+        repaint();
     }
 
     public GridPanel(){
@@ -56,13 +57,13 @@ public class GridPanel extends JPanel implements Runnable{
                         break;
                     case 'F': g2.setColor(Color.WHITE);
                         break;
-                    case 'S': g2.setColor(Color.GREEN);
+                    case 'S': g2.setColor(Color.GREEN.darker());
                         break;
-                    case 'G': g2.setColor(Color.RED);
+                    case 'G': g2.setColor(Color.RED.darker());
                         break;
-                    case 'M': g2.setColor(Color.DARK_GRAY);
+                    case 'M': g2.setColor(new Color(88, 41,0));
                         break;
-                    case 'T': g2.setColor(Color.ORANGE);
+                    case 'T': g2.setColor(new Color(255, 120,5));
                         break;
                     default: g2.setColor(Color.WHITE);
                         break;
