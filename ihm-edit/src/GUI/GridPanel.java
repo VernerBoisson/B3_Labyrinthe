@@ -18,22 +18,59 @@ import static GUI.ToolPanel.GlobalColor;
 import static GUI.ToolPanel.GlobalType;
 
 class GridPanel extends JPanel {
+    private int size;
     private ArrayList<Cell> shapes;
     private ArrayList<String> tableau;  
-    public GridPanel() {
-        int size = 25;
+    public GridPanel(int Size) {
+        size = Size;
+        int cellSize = (int) Math.floor(940/size);
         this.shapes = new ArrayList<Cell>();
         this.tableau = new ArrayList<String>();
-        setAlignmentX(Component.CENTER_ALIGNMENT);
-        for(int i=0; i<20; i++){
-            for(int j=0; j<20; j++){
-                shapes.add(new Cell(200 +i+i*size,20 + j+j*size,size,size));
+        for(int i=0; i<size; i++){
+            for(int j=0; j<size; j++){
+                shapes.add(new Cell(i+i*cellSize,j+j*cellSize,cellSize,cellSize));
             }
         }
 
+
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
+                for (Cell item : shapes) {
+                    if (item.getShape().contains(e.getPoint())) {
+
+                        if (GlobalType == "S") {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == "S") {
+                                    tmp.setType("F");
+                                    tmp.setColor(Color.WHITE);
+                                }
+                            }
+                        }
+                        if (GlobalType == "G") {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == "G") {
+                                    tmp.setType("F");
+                                    tmp.setColor(Color.WHITE);
+                                }
+                            }
+                        }
+                        item.setColor(GlobalColor);
+                        item.setType(GlobalType);
+                    }
+                }
+                repaint();
+
+//                tableau.clear();
+//                for (Cell item : shapes) {
+//                    tableau.add(item.getType());
+//                }
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
                 for (Cell item : shapes) {
                     if (item.getShape().contains(e.getPoint())) {
 

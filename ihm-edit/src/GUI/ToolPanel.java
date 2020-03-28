@@ -20,6 +20,8 @@ public class ToolPanel extends JPanel{
 
         JButton start = new JButton("Start");
         JButton goal = new JButton("Goal");
+        JButton trap = new JButton("Trap");
+        JButton mudTrap = new JButton("Mud trap");
         JButton wall = new JButton("Wall");
         JButton eraser = new JButton("Eraser");
         JButton clear = new JButton("Clear all");
@@ -28,15 +30,29 @@ public class ToolPanel extends JPanel{
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setGlobalColor(Color.GREEN);
+                setGlobalColor(Color.GREEN.darker());
                 setGlobalType("S");
             }
         });
         goal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setGlobalColor(Color.RED);
+                setGlobalColor(Color.RED.darker());
                 setGlobalType("G");
+            }
+        });
+        trap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setGlobalColor(new Color(255, 120,5));
+                setGlobalType("T");
+            }
+        });
+        mudTrap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setGlobalColor(new Color(88, 41,0));
+                setGlobalType("M");
             }
         });
         wall.addActionListener(new ActionListener() {
@@ -67,39 +83,49 @@ public class ToolPanel extends JPanel{
             }
         });
 
-        start.setPreferredSize(new Dimension( 100,100));
+        //
+        // start.setPreferredSize(new Dimension( 50,100));
         start.setBackground((Color.GREEN.darker()));
         start.setForeground(Color.WHITE);
 
-        goal.setPreferredSize(new Dimension( 100,100));
-        goal.setBackground(Color.RED);
+        //goal.setPreferredSize(new Dimension( 50,100));
+        goal.setBackground(Color.RED.darker());
         goal.setForeground(Color.WHITE);
 
-        wall.setPreferredSize(new Dimension( 100,100));
+        trap.setBackground(new Color(255, 120,5));
+        trap.setForeground(Color.WHITE);
+
+        mudTrap.setBackground(new Color(88, 41,0));
+        mudTrap.setForeground(Color.WHITE);
+        //wall.setPreferredSize(new Dimension( 50,100));
         wall.setBackground(Color.BLACK);
         wall.setForeground(Color.WHITE);
 
 
-        eraser.setPreferredSize(new Dimension( 100,100));
+        //eraser.setPreferredSize(new Dimension( 50,100));
         eraser.setBackground(Color.WHITE);
         eraser.setForeground(Color.BLACK);
 
-        clear.setPreferredSize(new Dimension( 100,100));
+        //clear.setPreferredSize(new Dimension( 50,100));
         clear.setBackground(Color.WHITE);
         clear.setForeground(Color.BLACK);
 
 
-        wallFill.setPreferredSize(new Dimension( 100,100));
-        wallFill.setBackground(Color.WHITE);
-        wallFill.setForeground(Color.DARK_GRAY);
+        //wallFill.setPreferredSize(new Dimension( 50,100));
+        wallFill.setBackground(Color.DARK_GRAY);
+        wallFill.setForeground(Color.BLACK);
 
-        setLayout(new GridLayout(1, 6));
+        setLayout(new GridLayout(8, 1));
         add(start);
         add(goal);
+        add(trap);
+        add(mudTrap);
         add(wall);
+        add(wallFill);
         add(eraser);
         add(clear);
-        add(wallFill);
+        setPreferredSize(new Dimension(150 ,50));
+
     }
 
     public static void setGlobalColor(Color color){

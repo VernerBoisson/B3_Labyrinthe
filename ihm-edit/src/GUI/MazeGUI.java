@@ -11,22 +11,58 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 public class MazeGUI {
+    private JFrame jframe;
+    private GridPanel gridPanel;
+    private ToolPanel toolPanel;
     public MazeGUI(){
-        JFrame jframe = new JFrame();
-        jframe.setSize(600, 800);
+        jframe = new JFrame();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        jframe.setSize(new Dimension(1280, 1080));
         jframe.setTitle("Maze Edit");
         jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jframe.setLayout(new BorderLayout(5, 5));
 
-        GridPanel gridPanel = new GridPanel();
-        jframe.add(gridPanel, BorderLayout.NORTH);
-
-        ToolPanel toolPanel = new ToolPanel(gridPanel);
-        jframe.add(toolPanel, BorderLayout.SOUTH);
+        gridPanel = new GridPanel(20);
+        jframe.add(gridPanel, BorderLayout.CENTER);
 
 
+        toolPanel = new ToolPanel(gridPanel);
+        toolPanel.setMaximumSize(new Dimension(50 ,50));
+        toolPanel.setMinimumSize(new Dimension(50 ,50));
+        jframe.add(toolPanel, BorderLayout.EAST);
+
+
+        JFrame newPopup = new JFrame();
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new GridLayout(3,1));
+        JLabel labMazeSize = new JLabel("Maze size");
+        JButton createMaze =  new JButton("Create");
+        JSpinner mazeSize = new JSpinner(new SpinnerNumberModel(10, 2,100,1));
+        //gridPanel = new GridPanel();
+
+        createMaze.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                jframe.remove(gridPanel);
+                jframe.remove(toolPanel);
+                gridPanel = new GridPanel((Integer)mazeSize.getValue());
+                toolPanel = new ToolPanel(gridPanel);
+                jframe.add(gridPanel, BorderLayout.CENTER);
+                jframe.add(toolPanel, BorderLayout.EAST);
+                jframe.setVisible(true);
+            }
+        });
+
+        labMazeSize.setPreferredSize(new Dimension( 100,30));
+        mazeSize.setPreferredSize(new Dimension( 300,30));
+
+
+        newPanel.add(labMazeSize);
+        newPanel.add(mazeSize);
+        newPanel.add(createMaze);
+        newPopup.add(newPanel);
+        newPopup.pack();
         //Pop up save maze
-        final JFrame savePopup = new JFrame();
+        JFrame savePopup = new JFrame();
         JPanel savepanel = new JPanel();
         savepanel.setLayout(new GridLayout(6,1));
         JLabel labTitle = new JLabel("Maze title");
@@ -74,10 +110,18 @@ public class MazeGUI {
         //Menu
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
+        JMenuItem newMaze = new JMenuItem("New");
+
         JMenuItem save = new JMenuItem("Save");
-        JMenuItem edit = new JMenuItem("Edit a Maze");
+        JMenuItem edit = new JMenuItem("Edit a maze");
 
+        newMaze.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newPopup.setVisible(true);
 
+            }
+        });
 
         save.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -94,7 +138,8 @@ public class MazeGUI {
 
             }
         });
-
+        menu.add(newMaze);
+        menu.addSeparator();
         menu.add(save);
         menu.addSeparator();
         menu.add(edit);
@@ -107,6 +152,9 @@ public class MazeGUI {
 
 
         jframe.setVisible(true);
+
+    }
+    public void newMaze(int size){
 
     }
 }
