@@ -7,10 +7,12 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class GridPanel extends JPanel {
+public class GridPanel extends JPanel implements Runnable{
+    private char[][] board;
+    int tmpX,tmpY;
+    private boolean over = false;
     private int size = 50;
     private Maze maze;
-    private char[][] board;
     private int length=0;
 
     public char[][] getBoard() {
@@ -80,6 +82,70 @@ public class GridPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(600, 600);
+    }
+
+
+    @Override
+    public void run() {
+        getStart();
+        moveFrom(tmpX, tmpY);
+    }
+
+    public  boolean isGoal(int x, int y){
+        return board[x][y] == 'G';
+    }
+    public  boolean isWall(int x, int y){
+        return board[x][y] == 'W';
+    }
+    public  boolean isFree(int x, int y){
+        return board[x][y] == 'F';
+    }
+    public  boolean isStart(int x, int y){
+        return board[x][y] == 'S';
+    }
+    public void getStart(){
+        int l = board[0].length;
+        for(int i=0; i<l; i++){
+            for(int j=0; j<l; j++){
+                if(isStart(i, j)){
+                    tmpX = i;
+                    tmpY = j;
+                    return;
+                }
+            }
+        }
+    }
+    public  boolean isVisited(int x, int y){
+        return board[x][y] == 'V';
+    }
+
+    public void setVisited(int x, int y){
+        board[x][y] = 'V';
+        tmpX = x;
+        tmpY = y;
+    }
+
+    private void moveFrom(int x, int y) {
+        if(isWall(x,y))
+            return;
+        if(isVisited(x,y))
+            return;
+        if(isGoal(x,y)){
+            this.over = true;
+            System.out.println("GGGG");
+            JOptionPane.showMessageDialog(this, "Good job dog!!");
+        }
+        System.out.println("ça continue de tourner");
+        if(!this.over){
+            setVisited(x,y);
+            repaint();
+            try {Thread.sleep(30);
+                moveFrom(x-1,y);
+                moveFrom(x+1,y);
+                moveFrom(x,y-1);
+                moveFrom(x,y+1);
+            } catch (Exception e) { }
+        }
     }
 
 }
