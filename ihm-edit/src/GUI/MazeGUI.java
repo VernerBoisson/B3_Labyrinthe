@@ -1,5 +1,10 @@
 package GUI;
 
+import beans.Maze;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -8,11 +13,18 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class MazeGUI {
     private JFrame jframe;
-    private GridPanel gridPanel;
+
+    private CellPanel cellPanel;
     private ToolPanel toolPanel;
     public MazeGUI(){
         jframe = new JFrame();
@@ -21,11 +33,11 @@ public class MazeGUI {
         jframe.setTitle("Maze Edit");
         jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        gridPanel = new GridPanel(19);
-        jframe.add(gridPanel, BorderLayout.CENTER);
+        cellPanel = new CellPanel(19, Optional.<char[][]>empty());
+        jframe.add(cellPanel, BorderLayout.CENTER);
 
 
-        toolPanel = new ToolPanel(gridPanel);
+        toolPanel = new ToolPanel(cellPanel);
         toolPanel.setMaximumSize(new Dimension(50 ,50));
         toolPanel.setMinimumSize(new Dimension(50 ,50));
         jframe.add(toolPanel, BorderLayout.EAST);
@@ -42,11 +54,11 @@ public class MazeGUI {
         createMaze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                jframe.remove(gridPanel);
+                jframe.remove(cellPanel);
                 jframe.remove(toolPanel);
-                gridPanel = new GridPanel((Integer)mazeSize.getValue());
-                toolPanel = new ToolPanel(gridPanel);
-                jframe.add(gridPanel, BorderLayout.CENTER);
+                cellPanel = new CellPanel((Integer)mazeSize.getValue(), Optional.<char [][]>empty());
+                toolPanel = new ToolPanel(cellPanel);
+                jframe.add(cellPanel, BorderLayout.CENTER);
                 jframe.add(toolPanel, BorderLayout.EAST);
                 jframe.setVisible(true);
             }
@@ -69,17 +81,17 @@ public class MazeGUI {
         JTextField title = new JTextField();
         JLabel labAuthor = new JLabel("Maze creator");
         JTextField author = new JTextField();
-        JButton postmaze =  new JButton("Save");
+        JButton saveMaze =  new JButton("Save");
         JLabel labError = new JLabel("Your maze must have a start and a goal point, please add them to save it !");
 
 
-        postmaze.addActionListener(new ActionListener() {
+        saveMaze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
                 try {
-                    if (gridPanel.isSolvable()) {
-                        gridPanel.save(title.getText(), author.getText());
+                    if (cellPanel.isSolvable()) {
+                        cellPanel.save(title.getText(), author.getText());
                         savePopup.setVisible(false);
                     } else {
                         savepanel.add(labError);
@@ -102,10 +114,100 @@ public class MazeGUI {
         savepanel.add(title);
         savepanel.add(labAuthor);
         savepanel.add(author);
-        savepanel.add(postmaze);
+        savepanel.add(saveMaze);
         savepanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         savePopup.add(savepanel);
         savePopup.pack();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Pop up save maze
+        JFrame editPopup = new JFrame();
+        JPanel editPanel = new JPanel();
+        editPanel.setLayout(new GridLayout(3,1));
+        JLabel labSelectMaze = new JLabel("Select a maze");
+        JComboBox selectMaze = new JComboBox();
+        //getRequest();
+
+        for(Maze maze : Maze.mazes) {
+            selectMaze.addItem(maze.getId() + " " + maze.getTitle());
+        }
+        JButton openSelectedMaze = new JButton("Open this Maze");
+
+
+        openSelectedMaze.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                System.out.println(selectMaze.getSelectedItem());
+                //getRequest();
+
+                for(Maze maze : Maze.mazes) {
+                    String mazeName = maze.getId() + " " + maze.getTitle();
+
+                    if (mazeName.equals(selectMaze.getSelectedItem().toString())){
+                        jframe.remove(cellPanel);
+                        jframe.remove(toolPanel);
+                        cellPanel = new CellPanel(maze.getSchemaMaze().length,Optional.of(maze.getSchemaMaze()));
+                        toolPanel = new ToolPanel(cellPanel);
+                        jframe.add(cellPanel, BorderLayout.CENTER);
+                        jframe.add(toolPanel, BorderLayout.EAST);
+                        jframe.setVisible(true);
+                        editPopup.setVisible(false);
+                        break;
+                    }
+                }
+                selectMaze.removeAllItems();
+                for(Maze maze : Maze.mazes) {
+
+                    selectMaze.addItem(maze.getId() + " " + maze.getTitle());
+                }
+            }
+        });
+
+
+
+
+
+
+        labSelectMaze.setPreferredSize(new Dimension( 100,30));
+        selectMaze.setPreferredSize(new Dimension( 100,30));
+
+        editPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        editPanel.add(labSelectMaze);
+        editPanel.add(selectMaze);
+        editPanel.add(openSelectedMaze);
+        editPopup.add(editPanel);
+        editPopup.pack();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Menu
         JMenuBar menuBar = new JMenuBar();
@@ -115,26 +217,29 @@ public class MazeGUI {
         JMenuItem save = new JMenuItem("Save");
         JMenuItem edit = new JMenuItem("Edit a maze");
 
-        newMaze.addActionListener(new java.awt.event.ActionListener() {
+        newMaze.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 newPopup.setVisible(true);
 
             }
         });
 
-        save.addActionListener(new java.awt.event.ActionListener() {
+        save.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 savePopup.setVisible(true);
 
             }
         });
 
-        edit.addActionListener(new java.awt.event.ActionListener() {
+        edit.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                savePopup.setVisible(true);
+            public void actionPerformed(ActionEvent evt) {
+                //getRequest();
+
+
+                editPopup.setVisible(true);
 
             }
         });
@@ -154,4 +259,98 @@ public class MazeGUI {
         jframe.setVisible(true);
 
     }
+//
+//
+//    public void getRequest() {
+//
+//        try {
+//
+//            String response = MyGetRequest();
+//            JSONArray jsonArray = new JSONArray(response);
+//            Maze.mazes.clear();
+//
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
+//                ArrayList<String> maze = new ArrayList<String>();
+//
+//                JSONArray arr = jsonObject.getJSONArray("maze");
+//                for (int j = 0; j < arr.length(); j++) {
+//                    maze.add(arr.get(j).toString());
+//                }
+//                Maze.mazes.add(new Maze((int) jsonObject.get("id"), (String) jsonObject.get("title"), (String) jsonObject.get("author"), maze));
+//            }
+//
+//
+//        } catch (
+//                IOException | JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        for (Maze maze : Maze.mazes) {
+//            System.out.println(maze.toString());
+//        }
+//    }
+
+
+
+//
+//    public static String MyGetRequest() throws IOException {
+//
+//        URL urlForGetRequest = new URL("http://localhost:8080/");
+//        String readLine = null;
+//        HttpURLConnection conection = (HttpURLConnection)urlForGetRequest.openConnection();
+//        conection.setRequestMethod("GET");
+//        int responseCode = conection.getResponseCode();
+//        if (responseCode == 200) {
+//            BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
+//            StringBuffer response = new StringBuffer();
+//
+//            while((readLine = in.readLine()) != null) {
+//                StringBuffer append = response.append(readLine);
+//            }
+//
+//            in.close();
+//            return response.toString();
+//        } else {
+//            System.out.println("GET NOT WORKED");
+//        }
+//        return null;
+//    }
+//
+//
+//    public static void ParseResponse(String response){
+//        JSONArray jsonArray = new JSONArray(response);
+//
+//        for (int i = 0; i < jsonArray.length(); i++)
+//        {
+//            System.out.println(jsonArray.get(i).toString());
+//            JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
+//            JSONArray arr = jsonObject.getJSONArray("maze");
+//            int l = arr.length();
+//            char[][] maze = new char[l][l];
+//            for (int j = 0; j < l; j++)
+//            {
+//                JSONArray arr2 = (JSONArray) arr.get(j);
+//                for(int k =0; k<l; k++){
+//                    String str = (String) arr2.get(k);
+//                    maze[j][k] = (char) str.charAt(0);
+//                }
+//                System.out.println(arr.get(j).getClass().getName());
+//            }
+//
+//            Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
+//        }
+//    }
+//
+
+
+
+
+
+
+
+
+
+
 }

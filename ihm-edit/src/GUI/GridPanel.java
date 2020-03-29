@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -20,21 +21,33 @@ import static GUI.ToolPanel.GlobalType;
 
 class GridPanel extends JPanel {
     private int size;
+    private Cell cellBoard[][];
     private ArrayList<Cell> shapes;
-    private ArrayList<String> tableau;  
-    public GridPanel(int Size ) {
+    private ArrayList<String> tableau;
+    private char [][] board;
+    private boolean isEditMaze;
 
+    public GridPanel(char [][] board) {
 
-        size = Size;
-        int cellSize = (int) Math.floor(800/size);
+        this.isEditMaze = true;
+        size = board.length;
+        this.board = new char[size][size];
+        this.board = board;
         this.shapes = new ArrayList<Cell>();
         this.tableau = new ArrayList<String>();
+
+
+        int cellSize = (int) Math.floor(800/size);
+
+
+
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
-                shapes.add(new Cell(i+i*cellSize,j+j*cellSize,cellSize,cellSize));
+                shapes.add(new Cell(i+i*cellSize,j+j*cellSize,cellSize,cellSize, board[i][j], i, j));
+
             }
         }
-
+        System.out.println(shapes);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -42,24 +55,29 @@ class GridPanel extends JPanel {
                 for (Cell item : shapes) {
                     if (item.getShape().contains(e.getPoint())) {
 
-                        if (GlobalType == "S") {
+                        if (GlobalType == 'S') {
                             for (Cell tmp : shapes) {
-                                if (tmp.getType() == "S") {
-                                    tmp.setType("F");
+                                if (tmp.getType() == 'S') {
+                                    tmp.setType('F');
                                     tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
                                 }
                             }
                         }
-                        if (GlobalType == "G") {
+                        if (GlobalType == 'G') {
                             for (Cell tmp : shapes) {
-                                if (tmp.getType() == "G") {
-                                    tmp.setType("F");
+                                if (tmp.getType() == 'G') {
+                                    tmp.setType('F');
                                     tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
                                 }
                             }
                         }
                         item.setColor(GlobalColor);
                         item.setType(GlobalType);
+                        board[item.getLocX()][item.getLocY()] = GlobalType;
                     }
                 }
                 repaint();
@@ -73,32 +91,126 @@ class GridPanel extends JPanel {
                 for (Cell item : shapes) {
                     if (item.getShape().contains(e.getPoint())) {
 
-                        if (GlobalType == "S") {
+                        if (GlobalType == 'S') {
                             for (Cell tmp : shapes) {
-                                if (tmp.getType() == "S") {
-                                    tmp.setType("F");
+                                if (tmp.getType() == 'S') {
+                                    tmp.setType('F');
                                     tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
                                 }
                             }
                         }
-                        if (GlobalType == "G") {
+                        if (GlobalType == 'G') {
                             for (Cell tmp : shapes) {
-                                if (tmp.getType() == "G") {
-                                    tmp.setType("F");
+                                if (tmp.getType() == 'G') {
+                                    tmp.setType('F');
                                     tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
                                 }
                             }
                         }
                         item.setColor(GlobalColor);
                         item.setType(GlobalType);
+                        board[item.getLocX()][item.getLocY()] = GlobalType;
                     }
                 }
                 repaint();
 
-//                tableau.clear();
-//                for (Cell item : shapes) {
-//                    tableau.add(item.getType());
-//                }
+            }
+        });
+
+    }
+
+
+    public GridPanel(int Size) {
+        this.isEditMaze = false;
+
+
+
+        size = Size;
+        int cellSize = (int) Math.floor(800/size);
+        this.board = new char[size][size];
+
+        this.shapes = new ArrayList<Cell>();
+        this.tableau = new ArrayList<String>();
+        for(int i=0; i<size; i++){
+            for(int j=0; j<size; j++){
+                shapes.add(new Cell(i+i*cellSize,j+j*cellSize,cellSize,cellSize, 'F', i, j ));
+                board[i][j] = 'F';
+            }
+        }
+
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                for (Cell item : shapes) {
+                    if (item.getShape().contains(e.getPoint())) {
+
+                        if (GlobalType == 'S') {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == 'S') {
+                                    tmp.setType('F');
+                                    tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
+                                }
+                            }
+                        }
+                        if (GlobalType == 'G') {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == 'G') {
+                                    tmp.setType('F');
+                                    tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
+                                }
+                            }
+                        }
+                        item.setColor(GlobalColor);
+                        item.setType(GlobalType);
+                        board[item.getLocX()][item.getLocY()] = GlobalType;
+                    }
+                }
+                repaint();
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                for (Cell item : shapes) {
+                    if (item.getShape().contains(e.getPoint())) {
+
+                        if (GlobalType == 'S') {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == 'S') {
+                                    tmp.setType('F');
+                                    tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
+                                }
+                            }
+                        }
+                        if (GlobalType == 'G') {
+                            for (Cell tmp : shapes) {
+                                if (tmp.getType() == 'G') {
+                                    tmp.setType('F');
+                                    tmp.setColor(Color.WHITE);
+                                    board[tmp.getLocX()][tmp.getLocY()] = 'F';
+
+                                }
+                            }
+                        }
+                        item.setColor(GlobalColor);
+                        item.setType(GlobalType);
+                        board[item.getLocX()][item.getLocY()] = GlobalType;
+                    }
+                }
+                repaint();
+
             }
         });
     }
@@ -127,7 +239,7 @@ class GridPanel extends JPanel {
     public void clear(){
         for (Cell item : shapes){
             item.setColor(Color.WHITE);
-            item.setType("F");
+            item.setType('F');
         }
         repaint();
     }
@@ -141,6 +253,7 @@ class GridPanel extends JPanel {
 
             }
         }
+        //shapes.set(5, shapes.get(5));
 
         int a = 0;
         for (Cell item : shapes) {
@@ -149,11 +262,11 @@ class GridPanel extends JPanel {
             if (a >= size) {
                 if (a % 2 == 0) {
                     item.setColor(Color.WHITE);
-                    item.setType("F");
+                    item.setType('F');
 
                 } else {
                     item.setColor(Color.BLACK);
-                    item.setType("W");
+                    item.setType('W');
                 }
                 if (a >= size*2)
                     a = 0;
@@ -162,7 +275,7 @@ class GridPanel extends JPanel {
                 if (a % 2 == 0 && item.getColor() == Color.WHITE) {
 
                     item.setColor(Color.BLACK);
-                    item.setType("W");
+                    item.setType('W');
                 }
             }
             a += 1;
@@ -176,10 +289,10 @@ class GridPanel extends JPanel {
         boolean start = false;
         boolean goal = false;
         for (Cell item : shapes){
-            if (item.getType() == "S") {
+            if (item.getType() == 'S') {
                 start = true;
             }
-            if (item.getType() == "G"){
+            if (item.getType() == 'G'){
                 goal = true;
             }
         }
@@ -191,26 +304,31 @@ class GridPanel extends JPanel {
 
     public void save(String title, String author) throws Exception{
 
+
+
         tableau.clear();
 
-
+        String test = "";
         int count = 0;
         int index = -1;
-
-        for (Cell item : shapes) {
-            if (count != 0) {
-
-                tableau.set(index, tableau.get(index).concat(item.getType()));
-            } else{
-                count = size;
-                index += 1;
-                tableau.add(item.getType());
-                System.out.println(tableau);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                test = test.concat( "maze[" + i +"]=" + board[i][j] + "&");
 
             }
-            count -= 1;
+//            if (count != 0) {
+//
+//                tableau.set(index, tableau.get(index).concat(item.getType()));
+//            } else{
+//                count = size;
+//                index += 1;
+//                tableau.add(item.getType());
+//                System.out.println(tableau);
+//
+//            }
+//            count -= 1;
         }
-        String test = "";
+
         System.out.println(tableau.size());
 
         for (int i = 0; i<tableau.size(); i++){
@@ -257,4 +375,5 @@ class GridPanel extends JPanel {
 
 
     }
+
 }

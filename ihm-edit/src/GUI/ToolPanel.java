@@ -10,17 +10,17 @@ import GUI.GridPanel.*;
 
 public class ToolPanel extends JPanel{
     public static Color GlobalColor = Color.WHITE;
-    public static String GlobalType = "F";
-    public GridPanel Maze;
+    public static char GlobalType = 'F';
+    public CellPanel Maze;
 
-    public ToolPanel(GridPanel maze){
+    public ToolPanel(CellPanel maze){
         Maze = maze;
 
 
 
         JButton start = new JButton("Start");
         JButton goal = new JButton("Goal");
-        JButton trap = new JButton("Trap");
+        JButton randomWall = new JButton("Random maze");
         JButton mudTrap = new JButton("Mud trap");
         JButton wall = new JButton("Wall");
         JButton eraser = new JButton("Eraser");
@@ -31,42 +31,41 @@ public class ToolPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setGlobalColor(Color.GREEN.darker());
-                setGlobalType("S");
+                setGlobalType('S');
             }
         });
         goal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setGlobalColor(Color.RED.darker());
-                setGlobalType("G");
+                setGlobalType('G');
             }
         });
-        trap.addActionListener(new ActionListener() {
+        randomWall.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setGlobalColor(new Color(255, 120,5));
-                setGlobalType("T");
+                maze.randomWall();
             }
         });
         mudTrap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setGlobalColor(new Color(88, 41,0));
-                setGlobalType("M");
+                setGlobalType('M');
             }
         });
         wall.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setGlobalColor(Color.BLACK);
-                setGlobalType("W");
+                setGlobalType('W');
             }
         });
         eraser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setGlobalColor(Color.WHITE);
-                setGlobalType("F");
+                setGlobalType('F');
             }
         });
         clear.addActionListener(new ActionListener() {
@@ -92,8 +91,8 @@ public class ToolPanel extends JPanel{
         goal.setBackground(Color.RED.darker());
         goal.setForeground(Color.WHITE);
 
-        trap.setBackground(new Color(255, 120,5));
-        trap.setForeground(Color.WHITE);
+        randomWall.setBackground(new Color(133, 133, 129));
+        randomWall.setForeground(Color.WHITE);
 
         mudTrap.setBackground(new Color(88, 41,0));
         mudTrap.setForeground(Color.WHITE);
@@ -118,10 +117,10 @@ public class ToolPanel extends JPanel{
         setLayout(new GridLayout(8, 1));
         add(start);
         add(goal);
-        add(trap);
         add(mudTrap);
         add(wall);
         add(wallFill);
+        add(randomWall);
         add(eraser);
         add(clear);
         setPreferredSize(new Dimension(150 ,50));
@@ -132,7 +131,7 @@ public class ToolPanel extends JPanel{
         GlobalColor = color;
     }
 
-    public static void setGlobalType(String type){
+    public static void setGlobalType(char type){
         GlobalType = type;
     }
 
