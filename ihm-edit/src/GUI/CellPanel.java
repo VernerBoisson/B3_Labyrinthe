@@ -23,12 +23,14 @@ public class CellPanel extends JPanel {
 
     private int size;
     private Cell cellBoard[][];
+
+
     private boolean isEditMaze;
     private Maze maze;
 
     public CellPanel(int size, Optional<Maze> maze) {
         setLayout(new GridLayout(20, 1));
-        setBorder(new EmptyBorder(0, 10, 0, 0));
+        setBorder(new EmptyBorder(0, 500, 0, 0));
 
         this.isEditMaze = true;
         this.size = size;
@@ -40,10 +42,11 @@ public class CellPanel extends JPanel {
 
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    this.cellBoard[i][j] = new Cell(i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, 'F', i, j);
+                    this.cellBoard[i][j] = new Cell(150 + i + i * cellSize, 70 + j + j * cellSize, cellSize, cellSize, 'F', i, j);
                 }
             }
             JLabel title = new JLabel("Unsaved Maze");
+            title.setFont(new java.awt.Font("Dialog", 5, 20));
             add(title, BorderLayout.CENTER);
         }
         else {
@@ -53,7 +56,7 @@ public class CellPanel extends JPanel {
             char [][] mazeSchema = this.maze.getSchemaMaze();
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    cellBoard[i][j] = new Cell(i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j], i, j);
+                    cellBoard[i][j] = new Cell(150 + i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j], i, j);
                 }
             }
             JLabel title = new JLabel(this.maze.getTitle());
@@ -219,6 +222,24 @@ public class CellPanel extends JPanel {
             return false;
     }
 
+
+    public Maze getMaze() {
+        return maze;
+    }
+
+    public void setMaze(Maze maze) {
+        this.maze = maze;
+    }
+
+    public boolean isEditMaze() {
+        return isEditMaze;
+    }
+
+    public void setEditMaze(boolean editMaze) {
+        isEditMaze = editMaze;
+    }
+
+
     public void save(String title, String author) throws Exception{
 
         String params = "";
@@ -241,15 +262,10 @@ public class CellPanel extends JPanel {
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //add reuqest header
-        if (isEditMaze) {
 
-            con.setRequestMethod("POST");
-        } else {
-            con.setRequestMethod("POST");
+        con.setRequestMethod("POST");
 
-        }
-
-        //con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
 
         //Send post request

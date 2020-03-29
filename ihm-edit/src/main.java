@@ -16,18 +16,20 @@ import java.util.ArrayList;
 
 
 public class main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
 
 
-            new MazeGUI();
-
-
-        UIManager.LookAndFeelInfo[] looks = UIManager.getInstalledLookAndFeels();
-        for (UIManager.LookAndFeelInfo look : looks) {
-            System.out.println(look.getClassName());
-
+        new MazeGUI();
+        try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+        }catch (Exception e) {
+            System.out.println(e);
+        }
 
+
+        for(Maze maze : Maze.mazes){
+            System.out.println(maze.toString());
+        }
         }
 
 
@@ -36,9 +38,7 @@ public class main {
 
 
 
-        for(Maze maze : Maze.mazes){
-            System.out.println(maze.toString());
-        }
+
     }
 //
 //    public String MyGetRequest() throws IOException {
@@ -87,7 +87,7 @@ public class main {
 //            Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
 //        }
 //    }
-}
+
 //    public static String MyGetRequest() throws IOException {
 //
 //        URL urlForGetRequest = new URL("http://localhost:8080/");

@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
     id: {type: Number, required: true, unique: true},
     title: {type:String},
     author: {type:String},
-    maze: [[{type:String}]],
+    maze: [{type:String}],
     createdAt: {type: Date, default: new Date()},
     result: {type:Object}
 })
@@ -36,8 +36,8 @@ module.exports = {
 
     insert: (params) => {
         const addMaze = new maze({
-            title: params.title ? params.title : "No Title",
-            author: params.author ? params.author : "Anonymous",
+            title: params.title,
+            author: params.author,
             maze: params.maze,
             result: {
                 time: "-1",
