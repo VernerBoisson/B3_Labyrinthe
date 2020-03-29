@@ -5,6 +5,7 @@ import beans.Maze;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
     private char[][] board, saveboard;
@@ -78,6 +79,8 @@ public class GridPanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
+        timer = saveTimer;
+        movement = saveMovement;
         saveboard = board;
         getStart();
         over = false;
@@ -122,41 +125,35 @@ public class GridPanel extends JPanel implements Runnable{
     }
 
     private void moveFrom(int x, int y) {
-            if(isWall(x,y))
-                return;
-            if(isVisited(x,y))
-                return;
-
-            if(isMubTrap(x, y)){
-                try {
+        if(isTrap(x,y)){
+            saveboard[x][y] = 'X';
+            board = saveboard;
+            saveMovement = movement;
+            saveTimer = timer;
+            run();
+            return;
+        }
+        if(!this.over && !isWall(x,y) && !isVisited(x,y)){
+            movement++;
+            boolean isMubTrap = isMubTrap(x,y);
+            boolean isGoal = isGoal(x,y);
+            setVisited(x,y);
+            repaint();
+            try {
+                if(isGoal){
+                    this.over = true;
+                    saveTimer=0;
+                    saveMovement=0;
+                    saveboard = null;
+                    JOptionPane.showMessageDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement);
+                }
+                if(isMubTrap){
                     Thread.sleep(500);
                     timer += 500;
-                } catch (InterruptedException e) {
-                }
-            }
-            if(isTrap(x,y)){
-                saveboard[x][y] = 'X';
-                board = saveboard;
-                saveMovement = movement;
-                saveTimer = timer;
-                run();
-                return;
-            }
-            if(isGoal(x,y)){
-                this.over = true;
-                saveTimer=0;
-                saveMovement=0;
-                JOptionPane.showMessageDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement);
-            }
-
-            if(!this.over){
-                movement++;
-                setVisited(x,y);
-                repaint();
-                try {Thread.sleep(100);
+                }else{
+                    Thread.sleep(100);
                     timer+=100;
-
-                } catch (Exception e) { }
+                }
                 try{
                     moveFrom(x-1,y);
                 }catch (Exception e){}
@@ -169,8 +166,9 @@ public class GridPanel extends JPanel implements Runnable{
                 try{
                     moveFrom(x,y+1);
                 }catch (Exception e){}
+            } catch (Exception e) { }
         }
     }
-
 }
+
 
