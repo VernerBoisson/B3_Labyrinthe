@@ -1,6 +1,9 @@
 package GUI;
 
+import beans.Maze;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,27 +24,41 @@ public class CellPanel extends JPanel {
     private int size;
     private Cell cellBoard[][];
     private boolean isEditMaze;
+    private Maze maze;
 
-    public CellPanel(int size, Optional<char [][]> charTypeBoard) {
+    public CellPanel(int size, Optional<Maze> maze) {
+        setLayout(new GridLayout(20, 1));
+        setBorder(new EmptyBorder(0, 10, 0, 0));
 
         this.isEditMaze = true;
         this.size = size;
         this.cellBoard = new Cell[size][size];
-        int cellSize = (int) Math.floor(800/size);
-        System.out.println(!charTypeBoard.isPresent());
-        if (!charTypeBoard.isPresent())
+        int cellSize = (int) Math.floor(800 / size);
+        System.out.println(!maze.isPresent());
+        if (!maze.isPresent()){
+            this.isEditMaze = false;
+
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    this.cellBoard[i][j] = new Cell(i + i * cellSize, j + j * cellSize, cellSize, cellSize, 'F', i, j);
+                    this.cellBoard[i][j] = new Cell(i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, 'F', i, j);
                 }
             }
+            JLabel title = new JLabel("Unsaved Maze");
+            add(title, BorderLayout.CENTER);
+        }
         else {
-            char [][] test = charTypeBoard.get();
+            this.maze = maze.get();
+            this.isEditMaze = true;
+
+            char [][] mazeSchema = this.maze.getSchemaMaze();
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    cellBoard[i][j] = new Cell(i + i * cellSize, j + j * cellSize, cellSize, cellSize, test[i][j], i, j);
+                    cellBoard[i][j] = new Cell(i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j], i, j);
                 }
             }
+            JLabel title = new JLabel(this.maze.getTitle());
+            add(title, BorderLayout.CENTER);
+
         }
 
         addMouseListener(new MouseAdapter() {
@@ -213,18 +230,26 @@ public class CellPanel extends JPanel {
             }
         }
 
-
-
         params = params.concat("title=" + title + "&author=" + author );
 
 
         String url = "http://localhost:8080/";
+        if (isEditMaze){
+            url = url.concat(String.valueOf(maze.getId()) + "?_method=patch");
+        }
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        if (isEditMaze) {
+
+            con.setRequestMethod("POST");
+        } else {
+            con.setRequestMethod("POST");
+
+        }
+
+        //con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
 
         //Send post request
