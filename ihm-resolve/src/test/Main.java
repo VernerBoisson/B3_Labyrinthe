@@ -72,7 +72,6 @@ public class Main {
                 for(int k =0; k<l; k++){
                     String str = (String) arr2.get(k);
                     maze[j][k] = (char) str.charAt(0);
-
                 }
                 System.out.println(arr.get(j).getClass().getName());
             }

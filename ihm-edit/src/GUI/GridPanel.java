@@ -141,7 +141,6 @@ class GridPanel extends JPanel {
 
             }
         }
-        //shapes.set(5, shapes.get(5));
 
         int a = 0;
         for (Cell item : shapes) {

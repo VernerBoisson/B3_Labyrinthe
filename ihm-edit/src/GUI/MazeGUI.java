@@ -154,7 +154,4 @@ public class MazeGUI {
         jframe.setVisible(true);
 
     }
-    public void newMaze(int size){
-
-    }
 }

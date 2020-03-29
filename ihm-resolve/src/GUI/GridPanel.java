@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 public class GridPanel extends JPanel implements Runnable{
     private char[][] board, saveboard;
     int tmpX,tmpY;
-    private boolean over = false, recursion = true;
+    private boolean over = false;
     private int size;
     private Maze maze;
     private int length=0;
@@ -81,9 +81,6 @@ public class GridPanel extends JPanel implements Runnable{
         saveboard = board;
         getStart();
         over = false;
-        timer = saveTimer;
-        movement = saveMovement;
-        recursion = true;
         moveFrom(tmpX, tmpY);
     }
 
@@ -98,9 +95,6 @@ public class GridPanel extends JPanel implements Runnable{
     }
     public  boolean isTrap(int x, int y){
         return board[x][y] == 'T';
-    }
-    public  boolean isFree(int x, int y){
-        return board[x][y] == 'F';
     }
     public  boolean isStart(int x, int y){
         return board[x][y] == 'S';
@@ -128,16 +122,13 @@ public class GridPanel extends JPanel implements Runnable{
     }
 
     private void moveFrom(int x, int y) {
-        if(recursion){
             if(isWall(x,y))
                 return;
             if(isVisited(x,y))
                 return;
 
-            movement++;
             if(isMubTrap(x, y)){
                 try {
-                    setVisited(x,y);
                     Thread.sleep(500);
                     timer += 500;
                 } catch (InterruptedException e) {
@@ -148,29 +139,36 @@ public class GridPanel extends JPanel implements Runnable{
                 board = saveboard;
                 saveMovement = movement;
                 saveTimer = timer;
-                recursion = false;
-                Thread t = new Thread(this);
-                t.run();
+                run();
                 return;
             }
             if(isGoal(x,y)){
                 this.over = true;
                 saveTimer=0;
                 saveMovement=0;
-                JOptionPane.showMessageDialog(this, "Good job dog!!");
+                JOptionPane.showMessageDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement);
             }
 
             if(!this.over){
+                movement++;
                 setVisited(x,y);
                 repaint();
                 try {Thread.sleep(100);
                     timer+=100;
-                    moveFrom(x-1,y);
-                    moveFrom(x+1,y);
-                    moveFrom(x,y-1);
-                    moveFrom(x,y+1);
+
                 } catch (Exception e) { }
-            }
+                try{
+                    moveFrom(x-1,y);
+                }catch (Exception e){}
+                try{
+                    moveFrom(x+1,y);
+                }catch (Exception e){}
+                try{
+                    moveFrom(x,y-1);
+                }catch (Exception e){}
+                try{
+                    moveFrom(x,y+1);
+                }catch (Exception e){}
         }
     }
 
