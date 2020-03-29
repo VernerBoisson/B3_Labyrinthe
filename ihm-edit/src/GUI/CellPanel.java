@@ -156,41 +156,298 @@ public class CellPanel extends JPanel {
         repaint();
     }
 
-    public void randomWall(){
-        Random random = new Random();
 
-        int a = 0;
+    public void randomWall() {
+        Random random = new Random();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                cellBoard[i][j].setColor(Color.WHITE);
-                cellBoard[i][j].setType('F');
-                if (a >= size) {
-                    if (a % 2 == 0) {
-                        cellBoard[i][j].setColor(Color.WHITE);
-                        cellBoard[i][j].setType('F');
+                cellBoard[i][j].setColor(Color.BLACK);
+                cellBoard[i][j].setType('W');
 
-                    } else {
-                        cellBoard[i][j].setColor(Color.BLACK);
-                        cellBoard[i][j].setType('W');
-                    }
-                    if (a >= size * 2)
-                        a = 0;
-                }
-
-                if (random.nextBoolean() == true) {
-                    if (a % 2 == 0 && cellBoard[i][j].getColor() == Color.WHITE) {
-
-                        cellBoard[i][j].setColor(Color.BLACK);
-                        cellBoard[i][j].setType('W');
-                    }
-                }
-                a += 1;
             }
         }
 
+        ArrayList<Integer> c = new ArrayList<Integer>();
+        ArrayList<Integer> d = new ArrayList<Integer>();
 
-        repaint();
+        int a = 1;
+        int b = 1 ;
+
+        c.add(a);
+        d.add(b);
+
+        cellBoard[a][b].setColor(Color.WHITE);
+        cellBoard[a][b].setType('F');
+
+        int countn;
+
+        while (c.size() != 0) {
+
+            a = c.get(c.size() - 1);
+            b = d.get(d.size() - 1);
+
+            for (int i = 0; i < 2000; i++) {
+                int dir = random.nextInt(5);
+                countn = 0;
+
+                switch (dir) {
+                    case 0:
+                        if (a + 2 < size) {
+                            if (cellBoard[a + 1][b].getType() == 'W' && cellBoard[a + 2][b].getType() == 'W') {
+                                a += 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                a += 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+
+                                if (a + 2 < size)
+                                    if (cellBoard[a + 2][b].getType() == 'W')
+                                    countn += 1;
+                                if (a - 2 > 0)
+                                    if (cellBoard[a - 2][b].getType() == 'W')
+                                    countn += 1;
+                                if (b + 2 < size)
+                                    if (cellBoard[a][b + 2].getType() == 'W')
+                                        countn += 1;
+                                if (b - 2 > 0)
+                                    if (cellBoard[a][b - 2].getType() == 'W')
+                                        countn += 1;
+                                if (countn >= 2) {
+                                    c.add(a);
+                                    d.add(b);
+                                }
+
+                            }
+                        }
+                        break;
+                    case 1:
+                        if (b + 2 < size) {
+                            if (cellBoard[a][b + 1].getType() == 'W' && cellBoard[a][b + 2].getType() == 'W') {
+                                b += 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                b += 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                if (a + 2 < size)
+                                    if (cellBoard[a + 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (a - 2 > 0)
+                                    if (cellBoard[a - 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (b + 2 < size)
+                                    if (cellBoard[a][b + 2].getType() == 'W')
+                                        countn += 1;
+                                if (b - 2 > 0)
+                                    if (cellBoard[a][b - 2].getType() == 'W')
+                                        countn += 1;
+                                if (countn >= 2) {
+                                    c.add(a);
+                                    d.add(b);
+                                }
+                            }
+
+
+                        }
+                        break;
+                    case 2:
+                        if (a - 2 > 0) {
+                            if (cellBoard[a - 1][b].getType() == 'W' && cellBoard[a - 2][b].getType() == 'W') {
+                                a -= 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                a -= 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                if (a + 2 < size)
+                                    if (cellBoard[a + 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (a - 2 > 0)
+                                    if (cellBoard[a - 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (b + 2 < size)
+                                    if (cellBoard[a][b + 2].getType() == 'W')
+                                        countn += 1;
+                                if (b - 2 > 0)
+                                    if (cellBoard[a][b - 2].getType() == 'W')
+                                        countn += 1;
+                                if (countn >= 2) {
+                                    c.add(a);
+                                    d.add(b);
+                                }
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (b - 2 > 0) {
+
+                            if (cellBoard[a][b - 1].getType() == 'W' && cellBoard[a][b - 2].getType() == 'W') {
+                                b -= 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                b -= 1;
+                                cellBoard[a][b].setColor(Color.WHITE);
+                                cellBoard[a][b].setType('F');
+                                if (a + 2 < size)
+                                    if (cellBoard[a + 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (a - 2 > 0)
+                                    if (cellBoard[a - 2][b].getType() == 'W')
+                                        countn += 1;
+                                if (b + 2 < size)
+                                    if (cellBoard[a][b + 2].getType() == 'W')
+                                        countn += 1;
+                                if (b - 2 > 0)
+                                    if (cellBoard[a][b - 2].getType() == 'W')
+                                        countn += 1;
+                                if (countn >= 2) {
+                                    c.add(a);
+                                    d.add(b);
+                                }
+                            }
+
+                        }
+                        break;
+                }
+            }
+            repaint();
+
+            c.remove(c.size() - 1);
+            d.remove(d.size() - 1);
+
+
+        }
     }
+
+
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//                        if (cellBoard[a][b].getType() == 'W' && cellBoard[a+1][b].getType() == 'W' && cellBoard[a][b+1].getType() == 'W' && cellBoard[a-1][b].getType() == 'W' && cellBoard[a][b-1].getType() == 'W') {
+//                            cellBoard[a][b].setColor(Color.WHITE);
+//                            cellBoard[a][b].setType('F');
+//                            repaint();
+//                            for (int k = 0; k < 1000; k++) {
+//                                int dir = random.nextInt(5);
+//
+//                                switch (dir) {
+//                                    case 0:
+//                                        if (a + 2 < size) {
+//                                            if (cellBoard[a + 1][b].getType() == 'W' && cellBoard[a + 2][b].getType() == 'W') {
+//                                                a += 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                                a += 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                            }
+//                                        }
+//                                        break;
+//                                    case 1:
+//                                        if (b + 2 < size) {
+//                                            if (cellBoard[a][b + 1].getType() == 'W' && cellBoard[a][b + 2].getType() == 'W') {
+//                                                b += 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                                b += 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                            }
+//
+//                                        }
+//                                        break;
+//                                    case 2:
+//                                        if (a - 2 > 0) {
+//                                            if (cellBoard[a - 1][b].getType() == 'W' && cellBoard[a - 2][b].getType() == 'W') {
+//                                                a -= 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                                a -= 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                            }
+//                                        }
+//                                        break;
+//                                    case 3:
+//                                        if (b - 2 > 0) {
+//
+//                                            if (cellBoard[a][b - 1].getType() == 'W' && cellBoard[a][b - 2].getType() == 'W') {
+//                                                b -= 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                                b -= 1;
+//                                                cellBoard[a][b].setColor(Color.WHITE);
+//                                                cellBoard[a][b].setType('F');
+//                                            }
+//
+//                                        }
+//                                        break;
+//                                }
+//
+//                                repaint();
+//
+//                            }
+//                        }
+//                }
+//            }
+//        }
+
+
+
+
+
+
+
+
+
+//
+//        int a = 0;
+//        for (int i = 0; i < size; i++) {
+//            for (int j = 0; j < size; j++) {
+//                cellBoard[i][j].setColor(Color.WHITE);
+//                cellBoard[i][j].setType('F');
+//                if (a >= size) {
+//                    if (a % 2 == 0) {
+//                        cellBoard[i][j].setColor(Color.WHITE);
+//                        cellBoard[i][j].setType('F');
+//
+//                    } else {
+//                        cellBoard[i][j].setColor(Color.BLACK);
+//                        cellBoard[i][j].setType('W');
+//                    }
+//                    if (a >= size * 2)
+//                        a = 0;
+//                }
+//
+//                if (random.nextBoolean() == true) {
+//                    if (a % 2 == 0 && cellBoard[i][j].getColor() == Color.WHITE) {
+//
+//                        cellBoard[i][j].setColor(Color.BLACK);
+//                        cellBoard[i][j].setType('W');
+//                    }
+//                }
+//                a += 1;
+//            }
+//        }
+//
+
+//    }
     public void wallFill(){
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
