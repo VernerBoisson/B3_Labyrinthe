@@ -33,7 +33,7 @@ app.patch('/:id', async (req, res) => {
 });
 
 app.delete('/:id', async (req, res) => {
-    const maze = await database.delete(req.params.id)
+    const maze = await database.remove(req.params.id)
     res.redirect('/')
 });
 

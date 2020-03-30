@@ -32,9 +32,8 @@ public class ToolBar extends JToolBar {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                     gui.getGridPanel().setBoard(gui.getGridPanel().getMaze().getSchemaMaze());
-                synchronized (gameThread){
-                    gameThread.start();
-                }
+                    Thread gameThread = new Thread(gui.getGridPanel());
+
             }
         });
         refresh.addActionListener(new ActionListener() {

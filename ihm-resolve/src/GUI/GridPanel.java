@@ -198,8 +198,6 @@ public class GridPanel extends JPanel implements Runnable{
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
-
-
     }
 }
 
