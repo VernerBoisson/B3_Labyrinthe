@@ -11,17 +11,12 @@ public class Cell {
     private int locY;
 
 
-    public Cell(int x, int y, int width, int height, char type, int locX, int locY) {
-        //Pourquoi super ?
-        super();
-        this.locX = locX;
-        this.locY = locY;
+    public Cell(int x, int y, double width, double height, char type ) {
+
         this.shape = new Rectangle2D.Double(x, y, width, height);
         this.type = type;
         switch (type) {
             case 'W': this.color = Color.BLACK;
-                break;
-            case 'F': this.color = Color.WHITE;
                 break;
             case 'S': this.color = Color.GREEN.darker();
                 break;
@@ -47,10 +42,6 @@ public class Cell {
         return shape;
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
     public Color getColor() {
         return color;
     }
@@ -58,24 +49,4 @@ public class Cell {
     public void setColor(Color color) {
         this.color = color;
     }
-
-
-    public int getLocX() {
-        return locX;
-    }
-
-    public void setLocX(int locX) {
-        this.locX = locX;
-    }
-
-    public int getLocY() {
-        return locY;
-    }
-
-    public void setLocY(int locY) {
-        this.locY = locY;
-    }
-
-
-
 }
