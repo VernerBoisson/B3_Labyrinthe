@@ -12,20 +12,17 @@ public class MazeGUI {
 
     public MazeGUI(){
         this.jframe = new JFrame();
-        jframe.setSize(1024, 800);
-        jframe.setTitle("Maze Resolve");
-        jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.jframe.setSize(1024, 800);
+        this.jframe.setTitle("Maze Resolve");
+        this.jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.gridPanel = new GridPanel();
         this.mazeChoicePanel = new MazeChoicePanel(gridPanel);
         this.toolBar = new ToolBar(this);
-
-        jframe.add(toolBar, BorderLayout.NORTH);
-        jframe.add(gridPanel, BorderLayout.CENTER);
-
-        jframe.add(mazeChoicePanel, BorderLayout.EAST);
-
-        jframe.setSize(1280, 1080);
-        jframe.setVisible(true);
+        this.jframe.add(this.toolBar, BorderLayout.NORTH);
+        this.jframe.add(this.gridPanel, BorderLayout.CENTER);
+        this.jframe.add(this.mazeChoicePanel, BorderLayout.EAST);
+        this.jframe.setSize(1280, 1080);
+        this.jframe.setVisible(true);
     }
 
     public JFrame getJframe() {

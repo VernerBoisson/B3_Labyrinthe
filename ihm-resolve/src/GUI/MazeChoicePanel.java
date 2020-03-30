@@ -22,32 +22,47 @@ public class MazeChoicePanel extends JScrollPane {
 
     public MazeChoicePanel(GridPanel gridPanel) {
         this.gridPanel = gridPanel;
+        ImageIcon playIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/play1.png")));
+        Image playImg = playIcon.getImage();
+        Image newPlayImg = playImg.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH);
+        playIcon = new ImageIcon(newPlayImg);
 
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel buttonPanel = new JPanel();
         setViewportView(buttonPanel);
+
         String response = MyGetRequest();
         ParseResponse(response);
 
+
+
         for(Maze maze : Maze.mazes) {
-            JButton mazeButton = new JButton(maze.getTitle());
+
+            JButton mazeButton = new JButton(maze.getId()+ " " + maze.getTitle());
+            mazeButton.setRolloverIcon(playIcon);
+
+
             mazeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    gridPanel.setMaze(maze);
-                    gridPanel.setBoard(maze.getSchemaMaze());
-                    gridPanel.setRunning(false);
-
+                    String response = MyGetRequest();
+                    ParseResponse(response);
+                    for(Maze mazee : Maze.mazes) {
+                        String mazeName = mazee.getId() + " " + mazee.getTitle();
+                        if (mazeName.equals(mazeButton.getText())) {
+                            gridPanel.setMaze(mazee);
+                            gridPanel.setBoard(mazee.getSchemaMaze());
+                            gridPanel.setRunning(false);
+                        }
+                    }
                 }
             });
-
-            mazeButton.setPreferredSize(new Dimension(100 ,70));
+            mazeButton.setPreferredSize(new Dimension(150 ,70));
             buttonPanel.add(mazeButton);
         }
         buttonPanel.setLayout(new GridLayout(Maze.mazes.size() + 1, 1, 0, 5));
         buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 12));
-
     }
 
     public String MyGetRequest()   {

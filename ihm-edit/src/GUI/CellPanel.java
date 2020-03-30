@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import static GUI.ToolPanel.GlobalColor;
 import static GUI.ToolPanel.GlobalType;
@@ -53,7 +54,7 @@ public class CellPanel extends JPanel {
             char [][] mazeSchema = this.maze.getSchemaMaze();
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    cellBoard[i][j] = new Cell(150 + i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j]);
+                    cellBoard[i][j] = new Cell(150 + i + i * cellSize, 60 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j]);
                 }
             }
             JLabel title = new JLabel(this.maze.getTitle());
@@ -138,7 +139,6 @@ public class CellPanel extends JPanel {
         repaint();
     }
 
-
     public void randomWall() {
 
         Random random = new Random();
@@ -149,9 +149,9 @@ public class CellPanel extends JPanel {
 
             }
         }
-        repaint();
         ArrayList<Integer> c = new ArrayList<Integer>();
         ArrayList<Integer> d = new ArrayList<Integer>();
+
 
         int a = 1;
         int b = 1 ;
@@ -162,6 +162,7 @@ public class CellPanel extends JPanel {
         cellBoard[a][b].setColor(Color.WHITE);
         cellBoard[a][b].setType('F');
         while (c.size() != 0) {
+
 
             a = c.get(c.size() - 1);
             b = d.get(d.size() - 1);
@@ -320,16 +321,14 @@ public class CellPanel extends JPanel {
         isEditMaze = editMaze;
     }
 
-
     public void save(String title, String author) throws Exception{
 
         String params = "";
         String url = "http://localhost:8080/";
+
         if (isEditMaze){
             url = url.concat(maze.getId() + "?_method=patch");
         }
-
-
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -338,21 +337,19 @@ public class CellPanel extends JPanel {
                 params = params.concat("maze[" + i + "]=" + cellBoard[i][j].getType() + "&");
             }
         }
-        params = params.concat("title=" + title + "&author=" + author );
-        System.out.println(params);
+        if (title != "")
+            params = params.concat("title=" + title + "&" );
+        if (author != "")
+            params = params.concat("author=" + author + "&");
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(params);
         wr.flush();
         wr.close();
-
         new BufferedReader( new InputStreamReader(con.getInputStream()));
-
-
     }
 
     public void delete(int id) throws Exception{

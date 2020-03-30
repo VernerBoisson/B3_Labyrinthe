@@ -41,7 +41,9 @@ public class ToolPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 maze.randomWall();
+
             }
+
         });
         mudTrap.addActionListener(new ActionListener() {
             @Override

@@ -8,42 +8,46 @@ import java.awt.geom.Rectangle2D;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
-    private volatile char[][] board, saveboard;
+    private volatile char[][] board;
     int tmpX,tmpY;
     private boolean over = false;
     private int size;
     private Maze maze;
     private int length=0;
     private volatile boolean isRunning = false;
+    private boolean isStop = false;
+    private int timer;
+    private int movement;
+    private int saveTimer=0;
+    private int saveMovement=0;
 
-    public void setRunning(boolean running) {
-        isRunning = running;
+    public GridPanel(){
+        setVisible(true);
+        setSize(600,600);
     }
 
-    private int timer, movement, saveTimer=0, saveMovement=0;
+    public void setRunning(boolean running) {
+        this.isRunning = running;
+    }
 
-
-    public void setBoard(char[][] board){
-        this.board = board;
-        this.length = this.board[0].length;
-        this.size = (int) Math.floor(850/board[0].length);
-        this.saveboard = board;
-        repaint();
+    public Maze getMaze() {
+        return maze;
     }
 
     public void setMaze(Maze maze) {
         this.maze = maze;
     }
 
-    public GridPanel(){
-        setVisible(true);
-        setSize(600,600);
+    public void setStop(boolean stop) { this.isStop = stop; }
 
+    public void setBoard(char[][] board){
+        this.board = board;
+        this.length = this.board[0].length;
+        this.size = (int) Math.floor(850/board[0].length);
+        repaint();
     }
 
     @Override
@@ -73,18 +77,10 @@ public class GridPanel extends JPanel implements Runnable{
                         break;
                 }
                 g2.fill(new Rectangle2D.Double(150 + i+i*size,60 + j+j*size, size, size));
-
             }
         }
         g2.dispose();
     }
-
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(600, 600);
-    }
-
 
     @Override
     public void run() {
@@ -92,9 +88,9 @@ public class GridPanel extends JPanel implements Runnable{
         movement = saveMovement;
         getStart();
         over = false;
+        isStop = false;
         moveFrom(tmpX, tmpY);
     }
-
 
     public  boolean isGoal(int x, int y){
         return board[x][y] == 'G';
@@ -111,6 +107,15 @@ public class GridPanel extends JPanel implements Runnable{
     public  boolean isStart(int x, int y){
         return board[x][y] == 'S';
     }
+    public  boolean isVisited(int x, int y){
+        return board[x][y] == 'V';
+    }
+    public void setVisited(int x, int y){
+        board[x][y] = 'V';
+        tmpX = x;
+        tmpY = y;
+    }
+
     public void getStart(){
         int l = board[0].length;
         for(int i=0; i<l; i++){
@@ -123,22 +128,9 @@ public class GridPanel extends JPanel implements Runnable{
             }
         }
     }
-    public  boolean isVisited(int x, int y){
-        return board[x][y] == 'V';
-    }
-
-    public void setVisited(int x, int y){
-        board[x][y] = 'V';
-        tmpX = x;
-        tmpY = y;
-    }
-
     private void moveFrom(int x, int y) {
         if(isRunning){
-
             if(isTrap(x,y)){
-                saveboard[x][y] = 'X';
-                board = saveboard;
                 saveMovement = movement;
                 saveTimer = timer;
                 run();
@@ -151,11 +143,15 @@ public class GridPanel extends JPanel implements Runnable{
                 setVisited(x,y);
                 repaint();
                 try {
+                    if(isStop){
+                        this.over = true;
+                        return;
+                    }
                     if(isGoal){
                         this.over = true;
                         saveTimer=0;
                         saveMovement=0;
-                        int validate = JOptionPane.showConfirmDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement, "Results", JOptionPane.DEFAULT_OPTION);
+                        int validate = JOptionPane.showConfirmDialog(this, "Resolved ! \n time : " + (float) timer/1000 + "s \n movement number : " + movement, "Results", JOptionPane.DEFAULT_OPTION);
                         if(validate == 0){
                             edit();
                         }
@@ -183,9 +179,7 @@ public class GridPanel extends JPanel implements Runnable{
                 } catch (Exception e) { }
             }
         }
-
     }
-
     public void edit() throws IOException {
         String params = "";
         params = params.concat("timer="+timer+"&movement="+movement);

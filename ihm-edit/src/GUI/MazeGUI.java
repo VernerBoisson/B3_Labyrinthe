@@ -28,21 +28,21 @@ public class MazeGUI {
     private ToolPanel toolPanel;
     private ToolBar toolBar;
     public MazeGUI(){
-        jframe = new JFrame();
-        jframe.setSize(new Dimension(1280, 1080));
+        this.jframe = new JFrame();
+        this.jframe.setSize(new Dimension(1280, 1080));
         jframe.setTitle("Maze Edit");
-        jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        cellPanel = new CellPanel(19, Optional.<Maze>empty());
-        jframe.add(cellPanel, BorderLayout.CENTER);
-        toolPanel = new ToolPanel(cellPanel);
-        toolBar = new ToolBar(this);
+        this.jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.cellPanel = new CellPanel(19, Optional.<Maze>empty());
+        this.jframe.add(this.cellPanel, BorderLayout.CENTER);
+        this.toolPanel = new ToolPanel(this.cellPanel);
+        this.toolBar = new ToolBar(this);
 
-        toolPanel.setMaximumSize(new Dimension(50 ,50));
-        toolPanel.setMinimumSize(new Dimension(50 ,50));
-        jframe.add(toolPanel, BorderLayout.EAST);
-        jframe.add(toolBar, BorderLayout.NORTH);
+        this.toolPanel.setMaximumSize(new Dimension(50 ,50));
+        this.toolPanel.setMinimumSize(new Dimension(50 ,50));
+        this.jframe.add(this.toolPanel, BorderLayout.EAST);
+        this.jframe.add(this.toolBar, BorderLayout.NORTH);
 
-        jframe.setVisible(true);
+        this.jframe.setVisible(true);
 
     }
 

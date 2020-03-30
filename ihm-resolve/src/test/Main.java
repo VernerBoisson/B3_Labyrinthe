@@ -15,14 +15,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) throws Exception{
-
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-
-
-        MazeGUI mazeGUI = new MazeGUI();
-
-
+        new MazeGUI();
     }
-
-
 }
