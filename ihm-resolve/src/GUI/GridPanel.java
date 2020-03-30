@@ -13,35 +13,37 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
-    private char[][] board, saveboard;
+    private volatile char[][] board, saveboard;
     int tmpX,tmpY;
     private boolean over = false;
     private int size;
     private Maze maze;
     private int length=0;
+    private volatile boolean isRunning = false;
+
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
     private int timer, movement, saveTimer=0, saveMovement=0;
 
 
     public void setBoard(char[][] board){
         this.board = board;
+        this.length = this.board[0].length;
+        this.size = (int) Math.floor(850/board[0].length);
         this.saveboard = board;
-    }
-
-    public Maze getMaze() {
-        return maze;
+        repaint();
     }
 
     public void setMaze(Maze maze) {
         this.maze = maze;
-        setBoard(maze.getSchemaMaze());
-        this.length = board[0].length;
-        this.size = (int) Math.floor(850/board[0].length);
-        repaint();
     }
 
     public GridPanel(){
         setVisible(true);
         setSize(600,600);
+
     }
 
     @Override
@@ -132,51 +134,54 @@ public class GridPanel extends JPanel implements Runnable{
     }
 
     private void moveFrom(int x, int y) {
-        if(isTrap(x,y)){
-            saveboard[x][y] = 'X';
-            board = saveboard;
-            saveMovement = movement;
-            saveTimer = timer;
-            run();
-            return;
-        }
-        if(!this.over && !isWall(x,y) && !isVisited(x,y)){
-            movement++;
-            boolean isMubTrap = isMubTrap(x,y);
-            boolean isGoal = isGoal(x,y);
-            setVisited(x,y);
-            repaint();
-            try {
-                if(isGoal){
-                    this.over = true;
-                    saveTimer=0;
-                    saveMovement=0;
-                    int validate = JOptionPane.showConfirmDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement, "Results", JOptionPane.DEFAULT_OPTION);
-                    if(validate == 0){
-                        edit();
+        if(isRunning){
+
+            if(isTrap(x,y)){
+                saveboard[x][y] = 'X';
+                board = saveboard;
+                saveMovement = movement;
+                saveTimer = timer;
+                run();
+                return;
+            }
+            if(!this.over && !isWall(x,y) && !isVisited(x,y)){
+                movement++;
+                boolean isMubTrap = isMubTrap(x,y);
+                boolean isGoal = isGoal(x,y);
+                setVisited(x,y);
+                repaint();
+                try {
+                    if(isGoal){
+                        this.over = true;
+                        saveTimer=0;
+                        saveMovement=0;
+                        int validate = JOptionPane.showConfirmDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement, "Results", JOptionPane.DEFAULT_OPTION);
+                        if(validate == 0){
+                            edit();
+                        }
+                        return;
                     }
-                    return;
-                }
-                if(isMubTrap){
-                    Thread.sleep(500);
-                    timer += 500;
-                }else{
-                    Thread.sleep(100);
-                    timer+=100;
-                }
-                try{
-                    moveFrom(x-1,y);
-                }catch (Exception e){}
-                try{
-                    moveFrom(x+1,y);
-                }catch (Exception e){}
-                try{
-                    moveFrom(x,y-1);
-                }catch (Exception e){}
-                try{
-                    moveFrom(x,y+1);
-                }catch (Exception e){}
-            } catch (Exception e) { }
+                    if(isMubTrap){
+                        Thread.sleep(500);
+                        timer += 500;
+                    }else{
+                        Thread.sleep(100);
+                        timer+=100;
+                    }
+                    try{
+                        moveFrom(x-1,y);
+                    }catch (Exception e){}
+                    try{
+                        moveFrom(x+1,y);
+                    }catch (Exception e){}
+                    try{
+                        moveFrom(x,y-1);
+                    }catch (Exception e){}
+                    try{
+                        moveFrom(x,y+1);
+                    }catch (Exception e){}
+                } catch (Exception e) { }
+            }
         }
 
     }

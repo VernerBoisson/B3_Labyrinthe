@@ -36,6 +36,9 @@ public class MazeChoicePanel extends JScrollPane {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     gridPanel.setMaze(maze);
+                    gridPanel.setBoard(maze.getSchemaMaze());
+                    gridPanel.setRunning(false);
+
                 }
             });
 

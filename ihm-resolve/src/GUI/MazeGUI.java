@@ -16,9 +16,9 @@ public class MazeGUI {
         jframe.setTitle("Maze Resolve");
         jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.gridPanel = new GridPanel();
+        this.mazeChoicePanel = new MazeChoicePanel(gridPanel);
         this.toolBar = new ToolBar(this);
 
-        this.mazeChoicePanel = new MazeChoicePanel(gridPanel);
         jframe.add(toolBar, BorderLayout.NORTH);
         jframe.add(gridPanel, BorderLayout.CENTER);
 
