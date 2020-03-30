@@ -21,6 +21,7 @@ public class GridPanel extends JPanel implements Runnable{
     private int length=0;
     private int timer, movement, saveTimer=0, saveMovement=0;
 
+
     public void setBoard(char[][] board){
         this.board = board;
         this.saveboard = board;
@@ -34,7 +35,7 @@ public class GridPanel extends JPanel implements Runnable{
         this.maze = maze;
         setBoard(maze.getSchemaMaze());
         this.length = board[0].length;
-        this.size = (int) Math.floor(900/board[0].length);
+        this.size = (int) Math.floor(850/board[0].length);
         repaint();
     }
 
@@ -69,7 +70,7 @@ public class GridPanel extends JPanel implements Runnable{
                     default: g2.setColor(Color.WHITE);
                         break;
                 }
-                g2.fill(new Rectangle2D.Double(i+i*size,j+j*size, size, size));
+                g2.fill(new Rectangle2D.Double(150 + i+i*size,60 + j+j*size, size, size));
 
             }
         }
