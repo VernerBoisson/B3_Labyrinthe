@@ -26,19 +26,39 @@ public class ToolBar extends JToolBar {
         Image newStopImg = stopImg.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         stopIcon = new ImageIcon(newStopImg);  // transform it back
         JButton stop = new JButton(stopIcon);
+        Thread gameThread = new Thread(gridPanel);
 
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                gridPanel.setBoard(gridPanel.getMaze().getSchemaMaze());
-                Thread gameThread = new Thread(gridPanel);
-                gameThread.start();
+                    gridPanel.setBoard(gridPanel.getMaze().getSchemaMaze());
+                synchronized (gameThread){
+                    gameThread.start();
+                }
             }
+        });
+        pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    synchronized (gameThread){
+                        gameThread.wait();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+            }
+
         });
 
         add(play);
-        add(pause);
-        add(stop);
+        //add(pause);
+        //add(stop);
 
     }
 }

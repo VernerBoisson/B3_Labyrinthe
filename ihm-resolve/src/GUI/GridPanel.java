@@ -5,6 +5,11 @@ import beans.Maze;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class GridPanel extends JPanel implements Runnable{
@@ -18,6 +23,7 @@ public class GridPanel extends JPanel implements Runnable{
 
     public void setBoard(char[][] board){
         this.board = board;
+        this.saveboard = board;
     }
 
     public Maze getMaze() {
@@ -81,11 +87,11 @@ public class GridPanel extends JPanel implements Runnable{
     public void run() {
         timer = saveTimer;
         movement = saveMovement;
-        saveboard = board;
         getStart();
         over = false;
         moveFrom(tmpX, tmpY);
     }
+
 
     public  boolean isGoal(int x, int y){
         return board[x][y] == 'G';
@@ -144,8 +150,11 @@ public class GridPanel extends JPanel implements Runnable{
                     this.over = true;
                     saveTimer=0;
                     saveMovement=0;
-                    saveboard = null;
-                    JOptionPane.showMessageDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement);
+                    int validate = JOptionPane.showConfirmDialog(this, "GG \n time : " + (float) timer/1000 + "s \n movement number : " + movement, "Results", JOptionPane.DEFAULT_OPTION);
+                    if(validate == 0){
+                        edit();
+                    }
+                    return;
                 }
                 if(isMubTrap){
                     Thread.sleep(500);
@@ -168,6 +177,28 @@ public class GridPanel extends JPanel implements Runnable{
                 }catch (Exception e){}
             } catch (Exception e) { }
         }
+
+    }
+
+    public void edit() throws IOException {
+        String params = "";
+        params = params.concat("timer="+timer+"&movement="+movement);
+        String url = "http://localhost:8080/";
+        url = url.concat(maze.getId() + "?_method=PATCH");
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(params);
+        wr.flush();
+        wr.close();
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+
     }
 }
 

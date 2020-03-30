@@ -11,16 +11,17 @@ const schema = new mongoose.Schema({
     id: {type: Number, required: true, unique: true},
     title: {type:String},
     author: {type:String},
-    maze: [{type:String}],
+    maze: [[{type:String}]],
     createdAt: {type: Date, default: new Date()},
-    result: {type:Object}
+    timer: {type: Number},
+    movement: {type: Number},
 })
 
 autoIncrement.initialize(mongoose.connection);
 schema.plugin(autoIncrement.plugin, {
     model: 'Maze',
     field: 'id',
-    startAt: 1
+    startAt: 1,
 });
 
 const maze = mongoose.model('Maze', schema);
@@ -36,25 +37,30 @@ module.exports = {
 
     insert: (params) => {
         const addMaze = new maze({
-            title: params.title,
-            author: params.author,
+            title: params.title ? params.title : "No Title",
+            author: params.author ? params.author : "Anonymous",
             maze: params.maze,
-            result: {
-                time: "-1",
-                mouvement: "-1",
-            }
+            timer: 0,
+            movement: 0,
         })
         return addMaze.save();
     },
 
     update: (mazeId, params) => {
-        const mazeToUpdate = maze.findOne({id: mazeId})
-        const filter = { id: gameId };
-        const updateParams = {
-            title: params.title ? params.title : mazeToUpdate.title,
-            author: params.author ? params.author : mazeToUpdate.author,
-            maze: params.maze ? params.maze : mazeToUpdate.maze,
-            result: params.result ? params.result : mazeToUpdate.result,
+        const filter = { id: mazeId };
+        let updateParams = {};
+        if(params.title && params.author && params.maze){
+            updateParams = {
+                title: params.title,
+                author: params.author,
+                maze: params.maze,
+                
+            }
+        }else if(params.timer && params.movement){
+            updateParams = {
+                timer: params.timer,
+                movement: params.movement,
+            }
         }
         return maze.findOneAndUpdate(filter,updateParams)
     },

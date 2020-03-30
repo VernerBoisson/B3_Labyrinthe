@@ -29,7 +29,7 @@ app.post('/', async (req, res) => {
 
 app.patch('/:id', async (req, res) => {
     const maze = await database.update(req.params.id, req.body)
-    res.json(maze)
+    res.redirect('/')
 });
 
 app.delete('/:id', async (req, res) => {

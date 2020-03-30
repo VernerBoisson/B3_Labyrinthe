@@ -38,6 +38,9 @@ public class Maze {
         return schemaMaze;
     }
 
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
