@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import GUI.GridPanel.*;
-
 public class ToolPanel extends JPanel{
     public static Color GlobalColor = Color.WHITE;
     public static char GlobalType = 'F';
@@ -15,8 +13,6 @@ public class ToolPanel extends JPanel{
 
     public ToolPanel(CellPanel maze){
         Maze = maze;
-
-
 
         JButton start = new JButton("Start");
         JButton goal = new JButton("Goal");
@@ -82,12 +78,10 @@ public class ToolPanel extends JPanel{
             }
         });
 
-        //
-        // start.setPreferredSize(new Dimension( 50,100));
+
         start.setBackground((Color.GREEN.darker()));
         start.setForeground(Color.WHITE);
 
-        //goal.setPreferredSize(new Dimension( 50,100));
         goal.setBackground(Color.RED.darker());
         goal.setForeground(Color.WHITE);
 
@@ -96,21 +90,16 @@ public class ToolPanel extends JPanel{
 
         mudTrap.setBackground(new Color(88, 41,0));
         mudTrap.setForeground(Color.WHITE);
-        //wall.setPreferredSize(new Dimension( 50,100));
+
         wall.setBackground(Color.BLACK);
         wall.setForeground(Color.WHITE);
 
-
-        //eraser.setPreferredSize(new Dimension( 50,100));
         eraser.setBackground(Color.WHITE);
         eraser.setForeground(Color.BLACK);
 
-        //clear.setPreferredSize(new Dimension( 50,100));
         clear.setBackground(Color.WHITE);
         clear.setForeground(Color.BLACK);
 
-
-        //wallFill.setPreferredSize(new Dimension( 50,100));
         wallFill.setBackground(Color.DARK_GRAY);
         wallFill.setForeground(Color.BLACK);
 

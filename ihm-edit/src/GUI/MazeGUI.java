@@ -29,7 +29,6 @@ public class MazeGUI {
     private ToolBar toolBar;
     public MazeGUI(){
         jframe = new JFrame();
-        Toolkit tk = Toolkit.getDefaultToolkit();
         jframe.setSize(new Dimension(1280, 1080));
         jframe.setTitle("Maze Edit");
         jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

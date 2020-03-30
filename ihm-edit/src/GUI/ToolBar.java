@@ -19,25 +19,26 @@ import java.util.Optional;
 
 public class ToolBar extends JToolBar {
     private MazeGUI gui;
+
     public ToolBar(MazeGUI gui) {
         this.gui = gui;
 
         // Save Button
-        ImageIcon saveIcon = new ImageIcon("icons/save.png"); // load the image to a imageIcon
+        ImageIcon saveIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/save.png"))); // load the image to a imageIcon
         Image saveImg = saveIcon.getImage(); // transform it
         Image newSaveImg = saveImg.getScaledInstance(40, 40,  Image.SCALE_SMOOTH); // scale it the smooth way
         saveIcon = new ImageIcon(newSaveImg);  // transform it back
         JButton save = new JButton(saveIcon);
 
         // edit Button
-        ImageIcon editIcon = new ImageIcon("icons/edit.png"); // load the image to a imageIcon
+        ImageIcon editIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/edit.png"))); // load the image to a imageIcon
         Image editImg = editIcon.getImage(); // transform it
         Image newEditImg = editImg.getScaledInstance(40, 40,  Image.SCALE_SMOOTH); // scale it the smooth way
         editIcon = new ImageIcon(newEditImg);  // transform it back
         JButton edit = new JButton(editIcon);
 
         // newMaze Button
-        ImageIcon newIcon = new ImageIcon("icons/new.png"); // load the image to a imageIcon
+        ImageIcon newIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/new.png"))); // load the image to a imageIcon
         Image newImg = newIcon.getImage(); // transform it
         Image newNewImg = newImg.getScaledInstance(40, 40,  Image.SCALE_SMOOTH); // scale it the smooth way
         newIcon = new ImageIcon(newNewImg);  // transform it back
@@ -49,14 +50,22 @@ public class ToolBar extends JToolBar {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new GridLayout(3,1,10,10));
         newPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
         JLabel labMazeSize = new JLabel("Maze size");
         JButton createMaze =  new JButton("Create");
-        JSpinner mazeSize = new JSpinner(new SpinnerNumberModel(10, 2,100,1));
-        //gridPanel = new GridPanel();
+        JSpinner mazeSize = new JSpinner(new SpinnerNumberModel(11, 5,99,2));
+
+        newMaze.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                newPopup.setVisible(true);
+            }
+        });
+
         createMaze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                gui.getCellPanel().removeAll();
+                gui.getToolPanel().removeAll();
                 gui.getJframe().remove(gui.getCellPanel());
                 gui.getJframe().remove(gui.getToolPanel());
                 gui.setCellPanel(new CellPanel((Integer)mazeSize.getValue(), Optional.<Maze>empty()));
@@ -65,11 +74,7 @@ public class ToolBar extends JToolBar {
                 gui.getToolPanel().setVisible(true);
                 gui.getJframe().add(gui.getCellPanel(), BorderLayout.CENTER);
                 gui.getJframe().add(gui.getToolPanel(), BorderLayout.EAST);
-                try {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-                }catch (Exception e) {
-                    System.out.println(e);
-                }
+
                 gui.getJframe().setVisible(true);
 
                 newPopup.setVisible(false);
@@ -87,14 +92,15 @@ public class ToolBar extends JToolBar {
 
         //Pop up save maze
         JFrame savePopup = new JFrame("Save");
-        JPanel savepanel = new JPanel();
-        savepanel.setLayout(new GridLayout(6,1, 10,10));
+        JPanel savePanel = new JPanel();
+        savePanel.setLayout(new GridLayout(6,1, 10,10));
         JLabel labTitle = new JLabel("Maze title");
         JTextField title = new JTextField();
         JLabel labAuthor = new JLabel("Maze creator");
         JTextField author = new JTextField();
         JButton saveMaze =  new JButton("Save");
         JLabel labError = new JLabel("Your maze must have a start and a goal point, please add them to save it !");
+        labError.setVisible(false);
 
         save.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +113,7 @@ public class ToolBar extends JToolBar {
                     title.setText("");
                     author.setText("");
                 }
+                labError.setVisible(false);
                 savePopup.setVisible(true);
             }
         });
@@ -126,8 +133,8 @@ public class ToolBar extends JToolBar {
                         gui.getJframe().add(gui.getToolPanel(), BorderLayout.EAST);
                         gui.getJframe().setVisible(true);
                     } else {
-                        savepanel.add(labError);
-                        savePopup.add(savepanel);
+                        labError.setVisible(true);
+                        savePopup.add(savePanel);
                         savePopup.pack();
                     }
 
@@ -142,13 +149,15 @@ public class ToolBar extends JToolBar {
         labAuthor.setPreferredSize(new Dimension( 300,30));
         author.setPreferredSize(new Dimension( 300,30));
 
-        savepanel.add(labTitle);
-        savepanel.add(title);
-        savepanel.add(labAuthor);
-        savepanel.add(author);
-        savepanel.add(saveMaze);
-        savepanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        savePopup.add(savepanel);
+        savePanel.add(labTitle);
+        savePanel.add(title);
+        savePanel.add(labAuthor);
+        savePanel.add(author);
+        savePanel.add(saveMaze);
+        savePanel.add(labError);
+
+        savePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        savePopup.add(savePanel);
         savePopup.pack();
         savePopup.setLocationRelativeTo(null);
 
@@ -177,8 +186,6 @@ public class ToolBar extends JToolBar {
         openSelectedMaze.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                System.out.println(selectMaze.getSelectedItem());
-                //getRequest();
 
                 for(Maze maze : Maze.mazes) {
                     String mazeName = maze.getId() + " " + maze.getTitle();
@@ -200,23 +207,13 @@ public class ToolBar extends JToolBar {
 
         labSelectMaze.setPreferredSize(new Dimension( 300,30));
         selectMaze.setPreferredSize(new Dimension( 300,30));
-
         editPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
         editPanel.add(labSelectMaze);
         editPanel.add(selectMaze);
         editPanel.add(openSelectedMaze);
         editPopup.add(editPanel);
         editPopup.pack();
         editPopup.setLocationRelativeTo(null);
-
-        newMaze.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                newPopup.setVisible(true);
-
-            }
-        });
 
 
         add(save);
@@ -228,11 +225,11 @@ public class ToolBar extends JToolBar {
         try {
             URL urlForGetRequest = new URL("http://localhost:8080/");
             String readLine = null;
-            HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-            conection.setRequestMethod("GET");
-            int responseCode = conection.getResponseCode();
+            HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
+            connection.setRequestMethod("GET");
+            int responseCode = connection.getResponseCode();
             if (responseCode == 200) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conection.getInputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuffer response = new StringBuffer();
 
                 while ((readLine = in.readLine()) != null) {
@@ -258,19 +255,17 @@ public class ToolBar extends JToolBar {
             Maze.mazes.removeAll(Maze.mazes);
             for (int i = 0; i < jsonArray.length(); i++)
             {
-                System.out.println(jsonArray.get(i).toString());
                 JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
                 JSONArray arr = jsonObject.getJSONArray("maze");
-                int l = arr.length();
-                char[][] maze = new char[l][l];
-                for (int j = 0; j < l; j++)
+                int len = arr.length();
+                char[][] maze = new char[len][len];
+                for (int j = 0; j < len; j++)
                 {
                     JSONArray arr2 = (JSONArray) arr.get(j);
-                    for(int k =0; k<l; k++){
+                    for(int k =0; k<len; k++){
                         String str = (String) arr2.get(k);
                         maze[j][k] = (char) str.charAt(0);
                     }
-                    System.out.println(arr.get(j).getClass().getName());
                 }
                 Maze.mazes.add(new Maze((int) jsonObject.get("id"),(String) jsonObject.get("title"),(String) jsonObject.get("author"), maze));
             }

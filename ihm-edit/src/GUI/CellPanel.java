@@ -23,26 +23,20 @@ public class CellPanel extends JPanel {
 
     private int size;
     private Cell cellBoard[][];
-
-
     private boolean isEditMaze;
     private Maze maze;
 
     public CellPanel(int size, Optional<Maze> maze) {
-        setLayout(new GridLayout(20, 1));
-        setBorder(new EmptyBorder(0, 500, 0, 0));
-
+        setBorder(new EmptyBorder(12, 0, 0, 0));
         this.isEditMaze = true;
         this.size = size;
         this.cellBoard = new Cell[size][size];
-        int cellSize = (int) Math.floor(800 / size);
-        System.out.println(!maze.isPresent());
+        int cellSize = 800 / size;
         if (!maze.isPresent()){
             this.isEditMaze = false;
-
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    this.cellBoard[i][j] = new Cell(150 + i + i * cellSize, 70 + j + j * cellSize, cellSize, cellSize, 'F', i, j);
+                    this.cellBoard[i][j] = new Cell(150 + i + i * cellSize, 60 + j + j * cellSize, cellSize , cellSize, 'F');
                 }
             }
             JLabel title = new JLabel("Unsaved Maze");
@@ -56,12 +50,12 @@ public class CellPanel extends JPanel {
             char [][] mazeSchema = this.maze.getSchemaMaze();
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    cellBoard[i][j] = new Cell(150 + i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j], i, j);
+                    cellBoard[i][j] = new Cell(150 + i + i * cellSize, 50 + j + j * cellSize, cellSize, cellSize, mazeSchema[i][j]);
                 }
             }
             JLabel title = new JLabel(this.maze.getTitle());
+            title.setFont(new java.awt.Font("Dialog", 5, 20));
             add(title, BorderLayout.CENTER);
-
         }
 
         addMouseListener(new MouseAdapter() {
@@ -70,7 +64,6 @@ public class CellPanel extends JPanel {
                 for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
                         if (cellBoard[i][j].getShape().contains(e.getPoint())) {
-
                             if (GlobalType == 'S') {
                                 for (int k = 0; k < size; k++) {
                                     for (int l = 0; l < size; l++) {
@@ -93,15 +86,12 @@ public class CellPanel extends JPanel {
                             }
                             cellBoard[i][j].setColor(GlobalColor);
                             cellBoard[i][j].setType(GlobalType);
-
                         }
                     }
                 }
                 repaint();
-
             }
          });
-
 
         addMouseMotionListener(new MouseAdapter() {
             @Override
@@ -117,11 +107,8 @@ public class CellPanel extends JPanel {
                     }
                 }
                 repaint();
-
-
             }
         });
-
     }
 
     @Override
@@ -130,20 +117,12 @@ public class CellPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-
                 g2.setColor(cellBoard[i][j].getColor());
                 g2.fill(cellBoard[i][j].getShape());
             }
         }
         g2.dispose();
     }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(600, 600);
-    }
-
-
 
     public void clear(){
         for (int i = 0; i < size; i++) {
@@ -186,10 +165,9 @@ public class CellPanel extends JPanel {
             a = c.get(c.size() - 1);
             b = d.get(d.size() - 1);
 
-            for (int i = 0; i < 2000; i++) {
-                int dir = random.nextInt(5);
+            for (int i = 0; i < 50; i++) {
                 countn = 0;
-
+                int dir = random.nextInt(5);
                 switch (dir) {
                     case 0:
                         if (a + 2 < size) {
@@ -320,140 +298,11 @@ public class CellPanel extends JPanel {
         }
     }
 
-
-
-
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//                        if (cellBoard[a][b].getType() == 'W' && cellBoard[a+1][b].getType() == 'W' && cellBoard[a][b+1].getType() == 'W' && cellBoard[a-1][b].getType() == 'W' && cellBoard[a][b-1].getType() == 'W') {
-//                            cellBoard[a][b].setColor(Color.WHITE);
-//                            cellBoard[a][b].setType('F');
-//                            repaint();
-//                            for (int k = 0; k < 1000; k++) {
-//                                int dir = random.nextInt(5);
-//
-//                                switch (dir) {
-//                                    case 0:
-//                                        if (a + 2 < size) {
-//                                            if (cellBoard[a + 1][b].getType() == 'W' && cellBoard[a + 2][b].getType() == 'W') {
-//                                                a += 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                                a += 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                            }
-//                                        }
-//                                        break;
-//                                    case 1:
-//                                        if (b + 2 < size) {
-//                                            if (cellBoard[a][b + 1].getType() == 'W' && cellBoard[a][b + 2].getType() == 'W') {
-//                                                b += 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                                b += 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                            }
-//
-//                                        }
-//                                        break;
-//                                    case 2:
-//                                        if (a - 2 > 0) {
-//                                            if (cellBoard[a - 1][b].getType() == 'W' && cellBoard[a - 2][b].getType() == 'W') {
-//                                                a -= 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                                a -= 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                            }
-//                                        }
-//                                        break;
-//                                    case 3:
-//                                        if (b - 2 > 0) {
-//
-//                                            if (cellBoard[a][b - 1].getType() == 'W' && cellBoard[a][b - 2].getType() == 'W') {
-//                                                b -= 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                                b -= 1;
-//                                                cellBoard[a][b].setColor(Color.WHITE);
-//                                                cellBoard[a][b].setType('F');
-//                                            }
-//
-//                                        }
-//                                        break;
-//                                }
-//
-//                                repaint();
-//
-//                            }
-//                        }
-//                }
-//            }
-//        }
-
-
-
-
-
-
-
-
-
-//
-//        int a = 0;
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//                cellBoard[i][j].setColor(Color.WHITE);
-//                cellBoard[i][j].setType('F');
-//                if (a >= size) {
-//                    if (a % 2 == 0) {
-//                        cellBoard[i][j].setColor(Color.WHITE);
-//                        cellBoard[i][j].setType('F');
-//
-//                    } else {
-//                        cellBoard[i][j].setColor(Color.BLACK);
-//                        cellBoard[i][j].setType('W');
-//                    }
-//                    if (a >= size * 2)
-//                        a = 0;
-//                }
-//
-//                if (random.nextBoolean() == true) {
-//                    if (a % 2 == 0 && cellBoard[i][j].getColor() == Color.WHITE) {
-//
-//                        cellBoard[i][j].setColor(Color.BLACK);
-//                        cellBoard[i][j].setType('W');
-//                    }
-//                }
-//                a += 1;
-//            }
-//        }
-//
-
-//    }
     public void wallFill(){
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 cellBoard[i][j].setColor(Color.BLACK);
                 cellBoard[i][j].setType('W');
-
             }
         }
         repaint();
@@ -500,56 +349,30 @@ public class CellPanel extends JPanel {
     public void save(String title, String author) throws Exception{
 
         String params = "";
-        int count = 0;
-        int index = -1;
+        String url = "http://localhost:8080/";
+        if (isEditMaze){
+            url = url.concat(maze.getId() + "?_method=patch");
+        }
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 params = params.concat("maze[" + i + "]=" + cellBoard[i][j].getType() + "&");
             }
         }
-
         params = params.concat("title=" + title + "&author=" + author );
 
-
-        String url = "http://localhost:8080/";
-        if (isEditMaze){
-            url = url.concat(String.valueOf(maze.getId()) + "?_method=patch");
-        }
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        //add reuqest header
-
         con.setRequestMethod("POST");
-
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-
-        //Send post request
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(params);
         wr.flush();
         wr.close();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        System.out.println(response.toString());
-
-
+        new BufferedReader( new InputStreamReader(con.getInputStream()));
     }
-
 }
