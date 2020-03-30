@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e34d9076-88d6-4e03-8165-d712dbdba940" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ihm-edit/src/GUI/GridPanel.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/GridPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ihm-resolve/GUI/GridPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GridPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GridPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MazeChoicePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MazeChoicePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/MazeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MazeGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/ToolBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ToolBar.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +98,7 @@
       <workItem from="1585437428115" duration="1832000" />
       <workItem from="1585439740835" duration="7475000" />
       <workItem from="1585517469883" duration="14102000" />
-      <workItem from="1585577771885" duration="1969000" />
+      <workItem from="1585577771885" duration="2636000" />
     </task>
     <servers />
   </component>
@@ -124,22 +118,22 @@
       <screen x="0" y="0" width="1366" height="746" />
     </state>
     <state x="327" y="119" key="FileChooserDialogImpl/0.0.1366.746@0.0.1366.746" timestamp="1585229775418" />
-    <state width="662" height="179" key="GridCell.Tab.0.bottom" timestamp="1585579744834">
+    <state width="662" height="179" key="GridCell.Tab.0.bottom" timestamp="1585595386165">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="662" height="179" key="GridCell.Tab.0.bottom/0.0.1366.746@0.0.1366.746" timestamp="1585579744834" />
-    <state width="662" height="179" key="GridCell.Tab.0.center" timestamp="1585579744833">
+    <state width="662" height="179" key="GridCell.Tab.0.bottom/0.0.1366.746@0.0.1366.746" timestamp="1585595386165" />
+    <state width="662" height="179" key="GridCell.Tab.0.center" timestamp="1585595386164">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="662" height="179" key="GridCell.Tab.0.center/0.0.1366.746@0.0.1366.746" timestamp="1585579744833" />
-    <state width="662" height="179" key="GridCell.Tab.0.left" timestamp="1585579744833">
+    <state width="662" height="179" key="GridCell.Tab.0.center/0.0.1366.746@0.0.1366.746" timestamp="1585595386164" />
+    <state width="662" height="179" key="GridCell.Tab.0.left" timestamp="1585595386164">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="662" height="179" key="GridCell.Tab.0.left/0.0.1366.746@0.0.1366.746" timestamp="1585579744833" />
-    <state width="662" height="179" key="GridCell.Tab.0.right" timestamp="1585579744834">
+    <state width="662" height="179" key="GridCell.Tab.0.left/0.0.1366.746@0.0.1366.746" timestamp="1585595386164" />
+    <state width="662" height="179" key="GridCell.Tab.0.right" timestamp="1585595386165">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
-    <state width="662" height="179" key="GridCell.Tab.0.right/0.0.1366.746@0.0.1366.746" timestamp="1585579744834" />
+    <state width="662" height="179" key="GridCell.Tab.0.right/0.0.1366.746@0.0.1366.746" timestamp="1585595386165" />
     <state width="1324" height="225" key="GridCell.Tab.1.bottom" timestamp="1585358817659">
       <screen x="0" y="0" width="1366" height="746" />
     </state>
