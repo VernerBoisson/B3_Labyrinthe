@@ -4,7 +4,10 @@ import beans.Maze;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -31,7 +34,7 @@ public class CellPanel extends JPanel {
         this.isEditMaze = true;
         this.size = size;
         this.cellBoard = new Cell[size][size];
-        int cellSize = 800 / size;
+        int cellSize = 850 / size;
         if (!maze.isPresent()){
             this.isEditMaze = false;
             for (int i = 0; i < size; i++) {
@@ -137,6 +140,7 @@ public class CellPanel extends JPanel {
 
 
     public void randomWall() {
+
         Random random = new Random();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -145,7 +149,7 @@ public class CellPanel extends JPanel {
 
             }
         }
-
+        repaint();
         ArrayList<Integer> c = new ArrayList<Integer>();
         ArrayList<Integer> d = new ArrayList<Integer>();
 
@@ -157,45 +161,28 @@ public class CellPanel extends JPanel {
 
         cellBoard[a][b].setColor(Color.WHITE);
         cellBoard[a][b].setType('F');
-
-        int countn;
-
         while (c.size() != 0) {
 
             a = c.get(c.size() - 1);
             b = d.get(d.size() - 1);
-
-            for (int i = 0; i < 50; i++) {
-                countn = 0;
-                int dir = random.nextInt(5);
+            int[] stuck = new int[4];
+            while ((stuck[0] + stuck[1] + stuck[2] + stuck[3]) != 10) {
+                int dir = random.nextInt(4);
                 switch (dir) {
                     case 0:
                         if (a + 2 < size) {
                             if (cellBoard[a + 1][b].getType() == 'W' && cellBoard[a + 2][b].getType() == 'W') {
                                 a += 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
+                                setPath(a,b);
                                 a += 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
-
-                                if (a + 2 < size)
-                                    if (cellBoard[a + 2][b].getType() == 'W')
-                                    countn += 1;
-                                if (a - 2 > 0)
-                                    if (cellBoard[a - 2][b].getType() == 'W')
-                                    countn += 1;
-                                if (b + 2 < size)
-                                    if (cellBoard[a][b + 2].getType() == 'W')
-                                        countn += 1;
-                                if (b - 2 > 0)
-                                    if (cellBoard[a][b - 2].getType() == 'W')
-                                        countn += 1;
-                                if (countn >= 2) {
+                                setPath(a,b);
+                                if (checkNeighbors(a,b) >= 2) {
                                     c.add(a);
                                     d.add(b);
                                 }
-
+                                for (int i = 0; i < stuck.length ; i++) {
+                                    stuck[i] = 0;
+                                }
                             }
                         }
                         break;
@@ -203,100 +190,88 @@ public class CellPanel extends JPanel {
                         if (b + 2 < size) {
                             if (cellBoard[a][b + 1].getType() == 'W' && cellBoard[a][b + 2].getType() == 'W') {
                                 b += 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
+                                setPath(a,b);
                                 b += 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
-                                if (a + 2 < size)
-                                    if (cellBoard[a + 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (a - 2 > 0)
-                                    if (cellBoard[a - 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (b + 2 < size)
-                                    if (cellBoard[a][b + 2].getType() == 'W')
-                                        countn += 1;
-                                if (b - 2 > 0)
-                                    if (cellBoard[a][b - 2].getType() == 'W')
-                                        countn += 1;
-                                if (countn >= 2) {
+                                setPath(a,b);
+                                if (checkNeighbors(a,b) >= 2) {
                                     c.add(a);
                                     d.add(b);
                                 }
+                                for (int i = 0; i < stuck.length ; i++) {
+                                    stuck[i] = 0;
+                                }
                             }
-
-
                         }
                         break;
                     case 2:
                         if (a - 2 > 0) {
                             if (cellBoard[a - 1][b].getType() == 'W' && cellBoard[a - 2][b].getType() == 'W') {
                                 a -= 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
+                                setPath(a,b);
                                 a -= 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
-                                if (a + 2 < size)
-                                    if (cellBoard[a + 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (a - 2 > 0)
-                                    if (cellBoard[a - 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (b + 2 < size)
-                                    if (cellBoard[a][b + 2].getType() == 'W')
-                                        countn += 1;
-                                if (b - 2 > 0)
-                                    if (cellBoard[a][b - 2].getType() == 'W')
-                                        countn += 1;
-                                if (countn >= 2) {
+                                setPath(a,b);
+                                if (checkNeighbors(a,b) >= 2) {
                                     c.add(a);
                                     d.add(b);
+                                }
+                                for (int i = 0; i < stuck.length ; i++) {
+                                    stuck[i] = 0;
                                 }
                             }
                         }
                         break;
                     case 3:
                         if (b - 2 > 0) {
-
                             if (cellBoard[a][b - 1].getType() == 'W' && cellBoard[a][b - 2].getType() == 'W') {
                                 b -= 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
+                                setPath(a,b);
                                 b -= 1;
-                                cellBoard[a][b].setColor(Color.WHITE);
-                                cellBoard[a][b].setType('F');
-                                if (a + 2 < size)
-                                    if (cellBoard[a + 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (a - 2 > 0)
-                                    if (cellBoard[a - 2][b].getType() == 'W')
-                                        countn += 1;
-                                if (b + 2 < size)
-                                    if (cellBoard[a][b + 2].getType() == 'W')
-                                        countn += 1;
-                                if (b - 2 > 0)
-                                    if (cellBoard[a][b - 2].getType() == 'W')
-                                        countn += 1;
-                                if (countn >= 2) {
+                                setPath(a,b);
+                                if (checkNeighbors(a,b) >= 2) {
                                     c.add(a);
                                     d.add(b);
                                 }
+                                for (int i = 0; i < stuck.length ; i++) {
+                                    stuck[i] = 0;
+                                }
                             }
-
                         }
                         break;
                 }
+                stuck[dir] = dir+1;
             }
-            repaint();
-
             c.remove(c.size() - 1);
             d.remove(d.size() - 1);
-
-
         }
+        repaint();
     }
+
+    public void setPath(int a,int b) {
+        cellBoard[a][b].setColor(Color.WHITE);
+        cellBoard[a][b].setType('F');
+    }
+
+    public int checkNeighbors(int a, int b){
+        int wallNeighbors = 0;
+        if (a + 2 < size) {
+            if (cellBoard[a + 2][b].getType() == 'W')
+                wallNeighbors += 1;
+        }
+        if (a - 2 > 0) {
+            if (cellBoard[a - 2][b].getType() == 'W')
+                wallNeighbors += 1;
+        }
+        if (b + 2 < size) {
+            if (cellBoard[a][b + 2].getType() == 'W')
+                wallNeighbors += 1;
+        }
+        if (b - 2 > 0) {
+            if (cellBoard[a][b - 2].getType() == 'W')
+                wallNeighbors += 1;
+        }
+        return wallNeighbors;
+    }
+
 
     public void wallFill(){
         for (int i = 0; i < size; i++) {
@@ -354,6 +329,7 @@ public class CellPanel extends JPanel {
             url = url.concat(maze.getId() + "?_method=patch");
         }
 
+
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -363,6 +339,7 @@ public class CellPanel extends JPanel {
             }
         }
         params = params.concat("title=" + title + "&author=" + author );
+        System.out.println(params);
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
@@ -374,5 +351,21 @@ public class CellPanel extends JPanel {
         wr.close();
 
         new BufferedReader( new InputStreamReader(con.getInputStream()));
+
+
+    }
+
+    public void delete(int id) throws Exception{
+
+        String url = "http://localhost:8080/" + id + "?_method=delete";
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+        new BufferedReader( new InputStreamReader(con.getInputStream()));
+
     }
 }

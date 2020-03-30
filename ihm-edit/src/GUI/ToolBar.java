@@ -52,7 +52,7 @@ public class ToolBar extends JToolBar {
         newPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         JLabel labMazeSize = new JLabel("Maze size");
         JButton createMaze =  new JButton("Create");
-        JSpinner mazeSize = new JSpinner(new SpinnerNumberModel(11, 5,99,2));
+        JSpinner mazeSize = new JSpinner(new SpinnerNumberModel(11, 5,31,2));
 
         newMaze.addActionListener(new ActionListener() {
             @Override
@@ -127,7 +127,7 @@ public class ToolBar extends JToolBar {
                         savePopup.setVisible(false);
                         gui.getJframe().remove(gui.getCellPanel());
                         gui.getJframe().remove(gui.getToolPanel());
-                        gui.setCellPanel( new CellPanel(15, Optional.empty()));
+                        gui.setCellPanel(new CellPanel(15, Optional.empty()));
                         gui.setToolPanel(new ToolPanel(gui.getCellPanel()));
                         gui.getJframe().add(gui.getCellPanel(), BorderLayout.CENTER);
                         gui.getJframe().add(gui.getToolPanel(), BorderLayout.EAST);
@@ -165,10 +165,11 @@ public class ToolBar extends JToolBar {
         //Pop up edit maze
         JFrame editPopup = new JFrame("Edit");
         JPanel editPanel = new JPanel();
-        editPanel.setLayout(new GridLayout(3,1,10,10));
+        editPanel.setLayout(new GridLayout(4,1,10,10));
         JLabel labSelectMaze = new JLabel("Select a maze");
         JComboBox selectMaze = new JComboBox();
-        JButton openSelectedMaze = new JButton("Open this Maze");
+        JButton openSelectedMaze = new JButton("Open this maze");
+        JButton deleteSelectedMaze = new JButton("Delete this maze");
 
         edit.addActionListener(new ActionListener() {
             @Override
@@ -180,6 +181,27 @@ public class ToolBar extends JToolBar {
                     selectMaze.addItem(maze.getId() + " " + maze.getTitle());
                 }
                 editPopup.setVisible(true);
+            }
+        });
+
+        deleteSelectedMaze.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                for(Maze maze : Maze.mazes) {
+                    String mazeName = maze.getId() + " " + maze.getTitle();
+                    if (mazeName.equals(selectMaze.getSelectedItem().toString())) {
+                        if (gui.getCellPanel().getMaze().getId() != maze.getId()) {
+                            try{
+                                gui.getCellPanel().delete(maze.getId());
+                            } catch (Exception e){
+                                System.out.println(e);
+
+                            }
+                        }
+                        editPopup.setVisible(false);
+                        break;
+                    }
+                }
             }
         });
 
@@ -211,6 +233,7 @@ public class ToolBar extends JToolBar {
         editPanel.add(labSelectMaze);
         editPanel.add(selectMaze);
         editPanel.add(openSelectedMaze);
+        editPanel.add(deleteSelectedMaze);
         editPopup.add(editPanel);
         editPopup.pack();
         editPopup.setLocationRelativeTo(null);
